@@ -1,0 +1,53 @@
+{
+  "name": "@falkor/falkor",
+  "version": "0.1.0",
+  "description": "Falkor Operations Commander",
+  "author": "Barnabas Bucsy (https://github.com/theonethread)",
+  "license": "MIT",
+  "private": true,
+  "keywords": [
+    "falkor",
+    "operations",
+    "commander"
+  ],
+  "type": "module",
+  "main": ".dist/index.js",
+  "module": ".dist/index.js",
+  "typings": ".dist/index.d.ts",
+  "bin": {
+    "falkor": ".dist/cli.js",
+    "falkor-shell": ".dist/shell.js"
+  },
+  "files": [
+    ".dist"
+  ],
+  "man": [
+    ".man/falkor.1",
+    ".man/falkor-shell.1"
+  ],
+  "engines": {
+    "node": ">=14",
+    "npm": ">=6"
+  },
+  "scripts": {
+    "clean": "rimraf .dist/**/* && rimraf .man/**/*",
+    "debug": "rimraf .dist/**/* && falkor-bundler --debug && falkor-bundler --debug --input src/cli.ts -- ./index.js && falkor-bundler --debug --input src/shell.ts -- ./index.js",
+    "debug-module": "falkor-bundler --debug",
+    "debug-cli": "falkor-bundler --debug --input src/cli.ts -- ./index.js",
+    "debug-shell": "falkor-bundler --debug --input src/shell.ts -- ./index.js",
+    "release": "rimraf .dist/**/* && falkor-bundler --release && falkor-bundler --release --input src/cli.ts -- ./index.js && falkor-bundler --release --input src/shell.ts -- ./index.js",
+    "release-module": "falkor-bundler --release",
+    "release-cli": "falkor-bundler --release --input src/cli.ts -- ./index.js",
+    "release-shell": "falkor-bundler --release --input src/shell.ts -- ./index.js",
+    "man": "pandoc --version && (mkdir .man || echo folder exists)  && rimraf .man/**/* && pandoc --standalone --to man ./man/man.md --output ./.man/falkor.1 && pandoc --standalone --to man ./man/shell.md --output ./.man/falkor-shell.1",
+    "start": "node .dist/index.js"
+  },
+  "devDependencies": {
+    "@types/node": "14.17.6",
+    "rimraf": "3.0.2",
+    "@falkor/falkor-bundler": "file:../falkor-bundler"
+  },
+  "dependencies": {
+    "@falkor/falkor-library": "file:../falkor-library"
+  }
+}

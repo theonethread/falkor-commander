@@ -1,0 +1,11 @@
+.ops.json
+
+.DS_Store
+.localized
+
+.dist
+.man
+.types
+.tmp
+.log
+**/node_modules

@@ -1,0 +1,11 @@
+# Integration with Issue Tracker
+#
+# (note that '\' need to be escaped).
+
+[issuetracker "HiTech Jira Rule"]
+  regex = "^([A-Z0-9]+-\\d+)"
+  url = "https://hitech-games.atlassian.net/browse/$1"
+
+[issuetracker "HiTech BitBucket Rule"]
+  regex = "commit\\:?\\s?([0-9a-f]+)$"
+  url = "https://bitbucket.org/hitech-games/slot-product-web/commits/$1"
