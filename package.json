@@ -1,7 +1,7 @@
 {
   "name": "@falkor/falkor",
   "version": "0.1.0",
-  "description": "Falkor Operations Commander",
+  "description": "Falkor operations commander",
   "author": "Barnabas Bucsy (https://github.com/theonethread)",
   "license": "MIT",
   "private": true,
