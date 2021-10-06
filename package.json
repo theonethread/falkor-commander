@@ -50,7 +50,7 @@
   "devDependencies": {
     "@types/node": "14.17.6",
     "rimraf": "3.0.2",
-    "@falkor/falkor-bundler": "1.0.0"
+    "@falkor/falkor-bundler": "file:../falkor-bundler"
   },
   "dependencies": {
     "@falkor/falkor-library": "file:../falkor-library"
