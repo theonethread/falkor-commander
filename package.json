@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Falkor operations commander",
   "author": "Barnabas Bucsy (https://github.com/theonethread)",
+  "contributors": [
+    "Barnabas Bucsy (https://github.com/theonethread)"
+  ],
   "license": "MIT",
   "repository": "github:theonethread/falkor-commander",
   "private": true,
