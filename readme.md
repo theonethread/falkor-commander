@@ -1,7 +1,7 @@
-# [Falkor] Operations Commander
+# **Falkor Operations Commander**
 
 ```javascript
-// Work IN Progress
+// Work In Progress
 ```
 
 ## **Development**
