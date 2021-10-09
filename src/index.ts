@@ -25,22 +25,18 @@ class FalkorCommander extends falkor.TaskRunner {
     }
 
     protected async initPlugins(): Promise<void> {
-        const pluginRoot = path.join(this.moduleParams.root, "/node_modules/@falkor/plugin-*");
-        this.logger.notice(`using plugin pattern: ${this.theme.formatPath(pluginRoot)}`);
+        const pluginPattern = path.join(this.moduleParams.root, "/falkor-plugin-*/.dist/index.js");
+        this.logger.notice(`using plugin pattern: ${this.theme.formatPath(pluginPattern)}`);
 
-        const pluginList = this.shell.ls(pluginRoot);
+        const pluginList = this.shell.find(pluginPattern);
         if (pluginList.length === 0) {
             this.logger.warning(`no plugins found ${this.theme.formatNotice("(assuming fresh install)")}`);
             return this.freshInstall();
         }
 
-        for (const dirSegment of pluginList) {
-            const dir = path.join(pluginRoot, dirSegment);
-            if (!this.shell.test("-d", dir)) {
-                this.logger.warning(`not a directory from '${this.theme.formatDebug(dir)}'`);
-                continue;
-            }
-            this.logger.notice(`testing directory '${this.theme.formatDebug(dirSegment)}'`).pushPrompt();
+        for (const index of pluginList) {
+            const dir = path.join(path.dirname(index), "..");
+            this.logger.notice(`testing directory '${this.theme.formatDebug(dir)}'`).pushPrompt();
             let descriptor: PluginDescriptor;
             try {
                 const pkg = JSON.parse(this.shell.cat(path.join(dir, "package.json")));
