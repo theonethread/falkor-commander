@@ -20,6 +20,8 @@ class FalkorCommander extends falkor.TaskRunner {
         this.startSubtask("Initialization");
         await this.initPlugins();
         this.endSubtaskSuccess("done");
+
+        process.exit(0);
     }
 
     protected async initPlugins(): Promise<void> {
