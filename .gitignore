@@ -4,6 +4,7 @@
 .localized
 
 .dist
+.doc
 .man
 .types
 .tmp
