@@ -44,7 +44,7 @@
     "release-module": "falkor-bundler --release",
     "release-cli": "falkor-bundler --release --input src/cli.ts -- ./index.js",
     "release-shell": "falkor-bundler --release --input src/shell.ts -- ./index.js",
-    "man": "pandoc --version && (mkdir .man || echo folder exists)  && rimraf .man/**/* && pandoc --standalone --to man ./man/man.md --output ./.man/falkor.1 && pandoc --standalone --to man ./man/shell.md --output ./.man/falkor-shell.1",
+    "man": "pandoc --version && (mkdir .man || rimraf .man/**/*) && pandoc --standalone --to man ./man/man.md --output ./.man/falkor.1 && pandoc --standalone --to man ./man/shell.md --output ./.man/falkor-shell.1",
     "prepublishOnly": "npm run release && npm run man",
     "start": "node .dist/index.js"
   },
