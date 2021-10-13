@@ -22,22 +22,23 @@ class FalkorCommander extends falkor.TaskRunner {
         this.endSubtaskSuccess("done");
 
         // TODO
+        this.run();
     }
 
     protected async initPlugins(): Promise<void> {
-        let descriptorArr;
         this.logger.notice(`testing if 'cwd' is plugin (${this.theme.formatPath(this.cwd)})`);
         const pluginTestPkg = this.testPackage(this.cwd);
         if (pluginTestPkg) {
             this.logger.notice(`'cwd' is plugin, running in test mode`);
-            descriptorArr = [pluginTestPkg];
-        } else {
-            this.logger.notice(`'cwd' is not plugin, discovering scope ${this.theme.formatPath("@falkor")}`);
-            descriptorArr = this.testModule(this.cwd, "@falkor");
-            if (descriptorArr.length === 0) {
-                this.logger.warning(`no plugins found ${this.theme.formatNotice("(assuming fresh install)")}`);
-                return this.freshInstall();
-            }
+            await this.testPlugin(pluginTestPkg);
+            return;
+        }
+
+        this.logger.notice(`'cwd' is not plugin, discovering scope ${this.theme.formatPath("@falkor")}`);
+        const descriptorArr = this.testModule(this.cwd, "@falkor");
+        if (descriptorArr.length === 0) {
+            this.logger.warning(`no plugins found ${this.theme.formatNotice("(assuming fresh install)")}`);
+            return this.freshInstall();
         }
 
         for (const descriptor of descriptorArr) {
