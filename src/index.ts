@@ -104,10 +104,20 @@ class FalkorCommander extends falkor.TaskRunner {
         }
         this.logger.notice("processing default exports");
         moduleExports.forEach((item) => {
-            if (item instanceof falkor.Task) {
+            const proto = Object.getPrototypeOf(item);
+            const className = proto.constructor.name;
+            const subclassName = Object.getPrototypeOf(proto).constructor.name;
+            // NOTE: instanceof can cause trouble while developing with linked local packages
+            if (item instanceof falkor.Task /*#if _DEBUG*/ || subclassName === "Task" /*#endif*/) {
                 this.register(item);
                 this.logger.notice(
                     `${this.theme.formatSuccess("registered")} task '${this.theme.formatDebug(item.id)}'`
+                );
+            } else {
+                this.logger.debug(
+                    `failed to process instance of '${this.theme.formatError(
+                        className
+                    )}' (subclass of '${this.theme.formatError(subclassName)}')`
                 );
             }
         });
