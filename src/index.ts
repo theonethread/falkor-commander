@@ -10,8 +10,6 @@ type PluginDescriptor = {
 };
 
 class FalkorCommander extends falkor.TaskRunner {
-    protected readonly moduleParams = this.getModuleParameters(import.meta.url, "..");
-
     constructor() {
         super("Commander");
 
@@ -23,7 +21,7 @@ class FalkorCommander extends falkor.TaskRunner {
         await this.initPlugins();
         this.endSubtaskSuccess("done");
 
-        process.exit(0);
+        // TODO
     }
 
     protected async initPlugins(): Promise<void> {
@@ -108,7 +106,7 @@ class FalkorCommander extends falkor.TaskRunner {
             if (item instanceof falkor.Task) {
                 this.register(item);
                 this.logger.notice(
-                    `${this.theme.formatSuccess("registered")} task '${this.theme.formatPath(item.id)}'`
+                    `${this.theme.formatSuccess("registered")} task '${this.theme.formatDebug(item.id)}'`
                 );
             }
         });
