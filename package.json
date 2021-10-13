@@ -20,7 +20,8 @@
   "typings": ".dist/index.d.ts",
   "bin": {
     "falkor": ".dist/cli.js",
-    "falkor-shell": ".dist/shell.js"
+    "falkor-shell": ".dist/shell.js",
+    "falkor-commander": ".dist/index.js"
   },
   "files": [
     ".dist"
