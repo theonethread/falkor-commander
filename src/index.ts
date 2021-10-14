@@ -104,31 +104,29 @@ class FalkorCommander extends falkor.TaskRunner {
             moduleExports = [moduleExports];
         }
         moduleExports.forEach((item) => {
-            const proto = Object.getPrototypeOf(item);
-            const className = proto.constructor.name;
-            const subclassName = Object.getPrototypeOf(proto).constructor.name;
             if (item instanceof falkor.Task) {
                 this.register(item);
                 this.logger.info(`${this.theme.formatSuccess("registered")} task '${this.theme.formatDebug(item.id)}'`);
-            } /*#if _DEBUG*/ else if (subclassName === "Task" && typeof item.id === "string") {
-                // NOTE: instanceof can cause trouble while developing with linked local packages, they may have their separate
-                // library instances installed on disk, since symlinked modules' dependencies do not get deduped
+                return;
+            }
+            //#if _DEBUG
+            // NOTE: instanceof can cause trouble while developing with linked local packages, they may have their separate
+            // library instances installed on disk, since symlinked modules' dependencies do not get deduped
+            if (Object.prototype.toString.call(item) === "[object @FalkorTask]") {
                 this.logger.warning(
-                    `assuming '${this.theme.formatDebug(item.id)}' is Task, but not instance of local Falkor library`
+                    `assuming '${this.theme.formatDebug(item.id)}' is Falkor task, but not instance of local library`
                 );
                 try {
                     this.register(item);
-                } catch (e) {
-                    return;
-                }
-                this.logger.info(`${this.theme.formatSuccess("registered")} task '${this.theme.formatDebug(item.id)}'`);
-            } /*#endif*/ else {
-                this.logger.debug(
-                    `failed to process instance of '${this.theme.formatError(
-                        className
-                    )}' (subclass of '${this.theme.formatError(subclassName)}')`
-                );
+                    this.logger.info(
+                        `${this.theme.formatSuccess("registered")} task '${this.theme.formatDebug(item.id)}'`
+                    );
+                } catch (e) {}
             }
+            //#endif
+            this.logger.debug(
+                `failed to process item of '${this.theme.formatError(this.getClassChain(item).join(" < "))}'`
+            );
         });
     }
 
@@ -138,6 +136,14 @@ class FalkorCommander extends falkor.TaskRunner {
         // TODO
 
         this.endSubtaskSuccess("success");
+    }
+
+    protected getClassChain(item: any): string[] {
+        const ret: string[] = [];
+        while ((item = Object.getPrototypeOf(item))) {
+            ret.push(item.constructor.name);
+        }
+        return ret;
     }
 }
 
