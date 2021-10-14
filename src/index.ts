@@ -21,27 +21,28 @@ class FalkorCommander extends falkor.TaskRunner {
         await this.initPlugins();
         this.endSubtaskSuccess("done");
 
+        const loadedTasks = Object.keys(this.collection);
+        if (loadedTasks.length === 0) {
+            this.logger.warning(`no plugins found ${this.theme.formatNotice("(assuming fresh install)")}`);
+            return this.freshInstall();
+        }
+
         // TODO
-        this.run();
+        return this.run();
     }
 
     protected async initPlugins(): Promise<void> {
         this.logger.notice(`testing if 'cwd' is plugin (${this.theme.formatPath(this.cwd)})`);
         const pluginTestPkg = this.testPackage(this.cwd);
         if (pluginTestPkg) {
-            this.logger.notice(`'cwd' is plugin, running in test mode`);
+            this.logger.info(`'cwd' is plugin, running in test mode`);
             await this.testPlugin(pluginTestPkg);
             return;
         }
 
         this.logger.notice(`'cwd' is not plugin, discovering scope ${this.theme.formatPath("@falkor")}`);
-        const descriptorArr = this.testModule(this.cwd, "@falkor");
-        if (descriptorArr.length === 0) {
-            this.logger.warning(`no plugins found ${this.theme.formatNotice("(assuming fresh install)")}`);
-            return this.freshInstall();
-        }
 
-        for (const descriptor of descriptorArr) {
+        for (const descriptor of this.testModule(this.cwd, "@falkor")) {
             await this.testPlugin(descriptor);
         }
     }
@@ -102,18 +103,26 @@ class FalkorCommander extends falkor.TaskRunner {
         if (!Array.isArray(moduleExports)) {
             moduleExports = [moduleExports];
         }
-        this.logger.notice("processing default exports");
         moduleExports.forEach((item) => {
             const proto = Object.getPrototypeOf(item);
             const className = proto.constructor.name;
             const subclassName = Object.getPrototypeOf(proto).constructor.name;
-            // NOTE: instanceof can cause trouble while developing with linked local packages
-            if (item instanceof falkor.Task /*#if _DEBUG*/ || subclassName === "Task" /*#endif*/) {
+            if (item instanceof falkor.Task) {
                 this.register(item);
-                this.logger.notice(
-                    `${this.theme.formatSuccess("registered")} task '${this.theme.formatDebug(item.id)}'`
+                this.logger.info(`${this.theme.formatSuccess("registered")} task '${this.theme.formatDebug(item.id)}'`);
+            } /*#if _DEBUG*/ else if (subclassName === "Task" && typeof item.id === "string") {
+                // NOTE: instanceof can cause trouble while developing with linked local packages, they may have their separate
+                // library instances installed on disk, since symlinked modules' dependencies do not get deduped
+                this.logger.warning(
+                    `assuming '${this.theme.formatDebug(item.id)}' is Task, but not instance of local Falkor library`
                 );
-            } else {
+                try {
+                    this.register(item);
+                } catch (e) {
+                    return;
+                }
+                this.logger.info(`${this.theme.formatSuccess("registered")} task '${this.theme.formatDebug(item.id)}'`);
+            } /*#endif*/ else {
                 this.logger.debug(
                     `failed to process instance of '${this.theme.formatError(
                         className
