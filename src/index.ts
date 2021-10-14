@@ -114,7 +114,7 @@ class FalkorCommander extends falkor.TaskRunner {
             // library instances installed on disk, since symlinked modules' dependencies do not get deduped
             if (Object.prototype.toString.call(item) === "[object @FalkorTask]") {
                 this.logger.warning(
-                    `assuming '${this.theme.formatDebug(item.id)}' is Falkor task, but not instance of local library`
+                    `assuming '${this.theme.formatDebug(item.id)}' is Falkor task, but not instance of used library`
                 );
                 try {
                     this.register(item);
