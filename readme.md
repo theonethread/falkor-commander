@@ -24,7 +24,7 @@ $ npm run [ debug | release ]
 
 ### **Open Source**
 
-You can always find the latest sources on [GitHub](https://github.com/theonethread/falkor-commander "Visit").
+The latest sources can always be found on [GitHub](https://github.com/theonethread/falkor-commander "Visit").
 
 ### **License**
 
