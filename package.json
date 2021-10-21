@@ -1,5 +1,5 @@
 {
-  "name": "@falkor/falkor",
+  "name": "@falkor/falkor-commander",
   "version": "1.0.0-beta.0",
   "description": "Falkor operations commander",
   "author": {
@@ -30,7 +30,7 @@
   "module": ".dist/index.js",
   "typings": ".dist/index.d.ts",
   "bin": {
-    "falkor": ".dist/cli.js",
+    "falkor-cli": ".dist/cli.js",
     "falkor-shell": ".dist/shell.js",
     "falkor-commander": ".dist/index.js"
   },
@@ -38,7 +38,7 @@
     ".dist"
   ],
   "man": [
-    ".man/falkor.1",
+    ".man/falkor-cli.1",
     ".man/falkor-shell.1"
   ],
   "engines": {
@@ -55,7 +55,7 @@
     "release-module": "falkor-bundler --release",
     "release-cli": "falkor-bundler --release --input src/cli.ts -- ./index.js",
     "release-shell": "falkor-bundler --release --input src/shell.ts -- ./index.js",
-    "man": "pandoc --version && (mkdir .man || rimraf .man/**/*) && pandoc --standalone --to man ./man/man.md --output ./.man/falkor.1 && pandoc --standalone --to man ./man/shell.md --output ./.man/falkor-shell.1",
+    "man": "pandoc --version && (mkdir .man || rimraf .man/**/*) && pandoc --standalone --to man ./man/man.md --output ./.man/falkor-cli.1 && pandoc --standalone --to man ./man/shell.md --output ./.man/falkor-shell.1",
     "prepublishOnly": "npm run release && npm run man",
     "start": "node .dist/index.js"
   },
