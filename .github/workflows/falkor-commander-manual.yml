@@ -29,12 +29,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: npm
 
-      - name: Use Pandoc v2.14.2
-        if: ${{ matrix.os != 'windows-latest' }}
-        uses: r-lib/actions/setup-pandoc@v1
-        with:
-          pandoc-version: "2.14.2"
-
       - name: Install Npm Dependencies
         run: |-
           npm ci --ignore-scripts
@@ -44,6 +38,12 @@ jobs:
           npx falkor-bundler ${{ github.event.inputs.cli }}
           npx falkor-bundler ${{ github.event.inputs.cli }} --input src/cli.ts -- ./index.js
           npx falkor-bundler ${{ github.event.inputs.cli }} --input src/shell.ts -- ./index.js
+
+      - name: Use Pandoc v2.14.2
+        if: ${{ matrix.os != 'windows-latest' }}
+        uses: r-lib/actions/setup-pandoc@v1
+        with:
+          pandoc-version: "2.14.2"
 
       - name: Build Manual
         if: ${{ matrix.os != 'windows-latest' }}
