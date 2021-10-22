@@ -64,11 +64,10 @@
     "@types/shelljs": "0.8.9",
     "@types/figlet": "1.5.4",
     "@types/semver": "7.3.9",
-    "@types/node-fetch": "3.0.3",
     "rimraf": "3.0.2",
     "@falkor/falkor-bundler": "1.1.3"
   },
   "dependencies": {
-    "@falkor/falkor-library": "1.0.0-beta.2"
+    "@falkor/falkor-library": "file://../falkor-library"
   }
 }
