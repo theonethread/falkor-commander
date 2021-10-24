@@ -15,6 +15,10 @@ class FalkorCommander extends falkor.TaskRunner {
         super("Commander");
 
         const argv = minimist(process.argv.slice(2));
+        this.logger
+            .pushPrompt(this.theme.formatDebug(this.debugPrompt))
+            .debug(`${this.theme.formatSeverityError(0, "ARGV:")} ${JSON.stringify(argv)}`)
+            .popPrompt();
 
         this.main().then(() => process.exit(0));
     }
