@@ -54,7 +54,7 @@ class FalkorCommander extends falkor.TaskRunner {
 
     protected async select(loadedTasks: string[]): Promise<string | string[]> {
         this.startSubtask("Plugin Selection");
-        const answer = await this.terminal.ask("try multi-selection:", {
+        const answer = await this.terminal.ask("select plugin(s) to run:", {
             answers: loadedTasks,
             list: true,
             multi: true
