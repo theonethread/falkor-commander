@@ -1,6 +1,7 @@
 import { posix as path } from "path";
 import { pathToFileURL } from "url";
 
+import minimist from "minimist";
 import falkor from "@falkor/falkor-library";
 
 type PluginDescriptor = {
@@ -13,22 +14,53 @@ class FalkorCommander extends falkor.TaskRunner {
     constructor() {
         super("Commander");
 
-        this.init();
+        const argv = minimist(process.argv.slice(2));
+
+        this.main().then(() => process.exit(0));
     }
 
-    protected async init(): Promise<void> {
+    protected async main(): Promise<void> {
         this.startSubtask("Initialization");
         await this.initPlugins();
         this.endSubtaskSuccess("done");
 
-        const loadedTasks = Object.keys(this.collection);
-        if (loadedTasks.length === 0) {
-            this.logger.warning(`no plugins found ${this.theme.formatNotice("(assuming fresh install)")}`);
-            return this.freshInstall();
+        const loadedTasks = Object.keys(this.collection).sort();
+        switch (loadedTasks.length) {
+            case 0:
+                this.logger.info(
+                    `${this.infoPrompt} no plugins found ${this.theme.formatNotice("(assuming fresh install)")}`
+                );
+                return this.freshInstall();
+            case 1:
+                this.logger.info(
+                    `${this.infoPrompt} only one plugin found ${this.theme.formatNotice("(starting automatically)")}`
+                );
+                return this.run(loadedTasks);
+            default:
+                return this.run(await this.select(loadedTasks));
         }
+    }
 
+    protected async freshInstall(): Promise<void> {
+        this.startSubtask("Fresh Install");
         // TODO
-        return this.run();
+        this.logger.debug("// TODO");
+        this.endSubtaskSuccess("success");
+    }
+
+    protected async select(loadedTasks: string[]): Promise<string | string[]> {
+        this.startSubtask("Plugin Selection");
+        const answer = await this.terminal.ask("try multi-selection:", {
+            answers: loadedTasks,
+            list: true,
+            multi: true
+        });
+        if (answer === null) {
+            this.endSubtaskError("failed input");
+        }
+        this.endSubtaskSuccess("success");
+
+        return answer;
     }
 
     protected async initPlugins(): Promise<void> {
@@ -110,8 +142,8 @@ class FalkorCommander extends falkor.TaskRunner {
                 return;
             }
             //#if _DEBUG
-            // NOTE: instanceof can cause trouble while developing with linked local packages, they may have their separate
-            // library instances installed on disk, since symlinked modules' dependencies do not get deduped
+            // NOTE: instanceof check can cause trouble while developing with linked local packages, they may have their
+            // separate library installations on disk, since symlinked modules' dependencies do not get deduped
             if (Object.prototype.toString.call(item) === "[object @FalkorTask]") {
                 this.logger.warning(
                     `assuming '${this.theme.formatDebug(item.id)}' is Falkor task, but not instance of used library`
@@ -121,29 +153,14 @@ class FalkorCommander extends falkor.TaskRunner {
                     this.logger.info(
                         `${this.theme.formatSuccess("registered")} task '${this.theme.formatDebug(item.id)}'`
                     );
+                    return;
                 } catch (e) {}
             }
             //#endif
             this.logger.debug(
-                `failed to process item of '${this.theme.formatError(this.getClassChain(item).join(" < "))}'`
+                `failed to process item of '${this.theme.formatError(falkor.util.getClassChain(item).join(" < "))}'`
             );
         });
-    }
-
-    protected freshInstall(): void {
-        this.startSubtask("Fresh Install");
-
-        // TODO
-
-        this.endSubtaskSuccess("success");
-    }
-
-    protected getClassChain(item: any): string[] {
-        const ret: string[] = [];
-        while ((item = Object.getPrototypeOf(item))) {
-            ret.push(item.constructor.name);
-        }
-        return ret;
     }
 }
 
