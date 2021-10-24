@@ -52,19 +52,18 @@ class FalkorCommander extends falkor.TaskRunner {
         this.endSubtaskSuccess("success");
     }
 
-    protected async select(answers: string[]): Promise<string | string[]> {
+    protected async select(answers: string[]): Promise<string[]> {
         this.startSubtask("Plugin Selection");
-        const answer = await this.terminal.ask("Select plugin(s) to run:", {
+        const selection = (await this.terminal.ask("Select plugin(s) to run:", {
             answers,
             list: true,
             multi: true
-        });
-        if (answer === null) {
+        })) as string[];
+        if (selection === null) {
             this.endSubtaskError("failed input");
         }
         this.endSubtaskSuccess("success");
-
-        return answer;
+        return selection;
     }
 
     protected async initPlugins(): Promise<void> {
