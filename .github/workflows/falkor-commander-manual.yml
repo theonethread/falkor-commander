@@ -35,9 +35,8 @@ jobs:
 
       - name: Bundle Custom Project
         run: |-
-          npx falkor-bundler ${{ github.event.inputs.cli }}
-          npx falkor-bundler ${{ github.event.inputs.cli }} --input src/cli.ts -- ./index.js
-          npx falkor-bundler ${{ github.event.inputs.cli }} --input src/shell.ts -- ./index.js
+          npx falkor-bundler ${{ github.event.inputs.cli }} --input src/index.ts
+          npx falkor-bundler ${{ github.event.inputs.cli }} --input src/cli/version.ts --out .dist/cli
 
       - name: Use Pandoc v2.14.2
         if: ${{ matrix.os != 'windows-latest' }}
@@ -56,16 +55,13 @@ jobs:
 
       - name: Get Executable Version
         run: |-
-          falkor-cli --version
-          falkor-shell --version
+          falkor-commander --version
 
       - name: Get Executable Hep
         run: |-
-          falkor-cli --help
-          falkor-shell --help
+          falkor-commander --help
 
       - name: Get Executable Manual
         if: ${{ matrix.os != 'windows-latest' }}
         run: |-
-          man falkor-cli | col -bx
-          man falkor-shell | col -bx
+          man falkor-commander | col -bx

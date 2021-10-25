@@ -47,15 +47,12 @@ jobs:
 
       - name: Get Executable Version
         run: |-
-          falkor-cli --version
-          falkor-shell --version
+          falkor-commander --version
 
       - name: Get Executable Hep
         run: |-
-          falkor-cli --help
-          falkor-shell --help
+          falkor-commander --help
 
       - name: Get Executable Manual
         run: |-
-          man falkor-cli | col -bx
-          man falkor-shells | col -bx
+          man falkor-commander | col -bx
