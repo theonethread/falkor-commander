@@ -27,37 +27,29 @@
   ],
   "type": "module",
   "main": ".dist/index.js",
-  "module": ".dist/index.js",
   "typings": ".dist/index.d.ts",
   "bin": {
-    "falkor-cli": ".dist/cli.js",
-    "falkor-shell": ".dist/shell.js",
     "falkor-commander": ".dist/index.js"
   },
+  "shared": ".dist/cli/version.js",
   "files": [
-    ".dist"
+    ".dist",
+    ".man"
   ],
   "man": [
-    ".man/falkor-cli.1",
-    ".man/falkor-shell.1"
+    ".man/falkor-commander.1"
   ],
   "engines": {
     "node": ">=14",
     "npm": ">=6"
   },
   "scripts": {
-    "clean": "rimraf .dist/**/* && rimraf .man/**/*",
-    "debug": "rimraf .dist/**/* && falkor-bundler --debug && falkor-bundler --debug --input src/cli.ts -- ./index.js && falkor-bundler --debug --input src/shell.ts -- ./index.js",
-    "debug-module": "falkor-bundler --debug",
-    "debug-cli": "falkor-bundler --debug --input src/cli.ts -- ./index.js",
-    "debug-shell": "falkor-bundler --debug --input src/shell.ts -- ./index.js",
-    "release": "rimraf .dist/**/* && falkor-bundler --release && falkor-bundler --release --input src/cli.ts -- ./index.js && falkor-bundler --release --input src/shell.ts -- ./index.js",
-    "release-module": "falkor-bundler --release",
-    "release-cli": "falkor-bundler --release --input src/cli.ts -- ./index.js",
-    "release-shell": "falkor-bundler --release --input src/shell.ts -- ./index.js",
-    "man": "pandoc --version && (mkdir .man || rimraf .man/**/*) && pandoc --standalone --to man ./man/man.md --output ./.man/falkor-cli.1 && pandoc --standalone --to man ./man/shell.md --output ./.man/falkor-shell.1",
+    "debug": "rimraf .dist/**/* && falkor-bundler --debug --input src/index.ts && falkor-bundler --debug --input src/cli/version.ts --out .dist/cli",
+    "release": "rimraf .dist/**/* && falkor-bundler --release --input src/index.ts && falkor-bundler --release --input src/cli/version.ts --out .dist/cli",
+    "man": "pandoc --version && (mkdir .man || rimraf .man/**/*) && pandoc --standalone --to man ./man/man.md --output ./.man/falkor-commander.1",
     "prepublishOnly": "npm run release && npm run man",
-    "start": "node .dist/index.js"
+    "version": "node .dist/index.js --version",
+    "help": "node .dist/index.js --help"
   },
   "devDependencies": {
     "@types/node": "14.17.29",
@@ -66,10 +58,11 @@
     "@types/semver": "7.3.9",
     "@types/minimist": "1.2.2",
     "rimraf": "3.0.2",
-    "@falkor/falkor-bundler": "1.1.3"
+    "@falkor/falkor-bundler": "file://../falkor-bundler"
   },
   "dependencies": {
     "minimist": "1.2.5",
+    "shelljs": "0.8.4",
     "@falkor/falkor-library": "file://../falkor-library"
   }
 }

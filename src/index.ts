@@ -11,10 +11,9 @@ type PluginDescriptor = {
 };
 
 class FalkorCommander extends falkor.TaskRunner {
-    constructor() {
+    constructor(argv: minimist.ParsedArgs) {
         super("Commander");
 
-        const argv = minimist(process.argv.slice(2));
         this.logger
             .pushPrompt(this.theme.formatDebug(this.debugPrompt))
             .debug(`${this.theme.formatSeverityError(0, "ARGV:")} ${JSON.stringify(argv)}`)
@@ -167,4 +166,14 @@ class FalkorCommander extends falkor.TaskRunner {
     }
 }
 
-export default new FalkorCommander();
+const argv = minimist(process.argv.slice(2));
+if (argv.v || argv.version) {
+    (await import("./cli/index-cli.js")).default(true);
+    process.exit(0);
+}
+if (argv.h || argv.help) {
+    (await import("./cli/index-cli.js")).default();
+    process.exit(0);
+}
+
+export default new FalkorCommander(argv);
