@@ -19,7 +19,6 @@
     "type": "individual",
     "url": "https://www.linkedin.com/in/barnabas-bucsy"
   },
-  "private": true,
   "keywords": [
     "falkor",
     "operations",
@@ -56,11 +55,11 @@
     "@types/semver": "7.3.9",
     "@types/minimist": "1.2.2",
     "rimraf": "3.0.2",
-    "@falkor/falkor-bundler": "file://../falkor-bundler"
+    "@falkor/falkor-bundler": "1.1.4"
   },
   "dependencies": {
     "minimist": "1.2.5",
     "shelljs": "0.8.4",
-    "@falkor/falkor-library": "file://../falkor-library"
+    "@falkor/falkor-library": "1.0.0-beta.3"
   }
 }
