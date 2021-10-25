@@ -1,6 +1,7 @@
 name: Falkor CI - Release
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
