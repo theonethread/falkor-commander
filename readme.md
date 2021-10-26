@@ -19,7 +19,7 @@ The `falkor-commander` project is a standalone `npm` command-line application wr
 
 ## **Usage**
 
-Since both the workflow and API are subjects to change, if you want to follow the development of the project there is an up-to-date testing repository at [`falkor-plugin-example`](https://github.com/theonethread/falkor-plugin-example "Visit") to demonstrate framework capabilities, which you can use to test features, or as a boilerplate for your own task / sequence.
+Since both the workflow and API are subjects to change, if you want to follow the development of the project there is an up-to-date testing repository at [`falkor-plugin-example`](https://github.com/theonethread/falkor-plugin-example "Visit") to demonstrate framework capabilities, which you can use to test features, or as a boilerplate for your own task / sequence for now.
 
 ## **Further Development**
 
