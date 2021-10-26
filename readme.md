@@ -15,7 +15,7 @@
 // Work In Progress
 ```
 
-The `falkor-commander` project is a standalone `npm` command-line application written in strict ES6 TypeScript. It is a plugin based task runner / - sequencer using the [`@falkor/falkor-library`](https://www.npmjs.com/package/@falkor/falkor-bundler "Visit") to make everyday DevOps tasks more approachable, friendly, and secure in the terminal for non-technical people.
+The `falkor-commander` project is a standalone `npm` command-line application written in strict ES6 TypeScript. It is a plugin based task runner / - sequencer using the [`@falkor/falkor-library`](https://www.npmjs.com/package/@falkor/falkor-library "Visit") to make everyday DevOps tasks more approachable, friendly, and secure in the terminal for non-technical people.
 
 ## **Usage**
 
