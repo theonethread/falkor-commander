@@ -69,7 +69,7 @@ class FalkorCommander extends falkor.TaskRunner {
         this.logger.notice(`testing if 'cwd' is plugin (${this.theme.formatPath(this.cwd)})`);
         const pluginTestPkg = this.testPackage(this.cwd);
         if (pluginTestPkg) {
-            this.logger.info(`'cwd' is plugin, running in test mode`);
+            this.logger.info(`'cwd' is plugin, running in single-plugin test mode`);
             await this.testPlugin(pluginTestPkg);
             return;
         }
@@ -131,7 +131,6 @@ class FalkorCommander extends falkor.TaskRunner {
             moduleExports = (await import(descriptor.module)).default;
         } catch (e) {
             this.logger.warning(`failed to import module '${this.theme.formatDebug(descriptor.name)}'`).debug(e);
-
             return;
         }
         if (!Array.isArray(moduleExports)) {
