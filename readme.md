@@ -21,6 +21,22 @@ The `falkor-commander` project is a standalone `npm` command-line application wr
 
 Since both the workflow and API are subjects to change, if you want to follow the development of the project there is an up-to-date testing repository at [`falkor-plugin-example`](https://github.com/theonethread/falkor-plugin-example "Visit") to demonstrate framework capabilities, which you can use to test features, or as a boilerplate for your own task / sequence for now.
 
+### **Command Line Interface**
+
+Usage:
+
+```
+falkor-commander [(-- <answers>...)]
+falkor-commander [(-- <answers>...)]
+falkor-commander (-v | --version | -h | --help)
+```
+
+Options:
+
+* `-v` or `--version`: Show version and exit
+* `-h` or `--help`: Show help and exit
+* `-- <answers>...`: Treat all positional arguments after double dash as buffered answers
+
 ## **Further Development**
 
 The project uses the [`@falkor/falkor-bundler`](https://www.npmjs.com/package/@falkor/falkor-bundler "Visit") module to compile sources. You can run:

@@ -14,12 +14,13 @@ version ${getOwnVersion()}
 Description
 
 Usage:
-  falkor-commander
-  falkor-commander
+  falkor-commander [(-- <answers>...)]
+  falkor-commander [(-- <answers>...)]
   falkor-commander (-v | --version | -h | --help)
 
 Options:
-  -v, --version  Show version and exit
-  -h, --help     Show this screen and exit
+  -v, --version    Show version and exit
+  -h, --help       Show this screen and exit
+  -- <answers>...  Treat all positional arguments after double dash as buffered answers
 `);
 };

@@ -9,8 +9,8 @@
 # SYNOPSIS
 
 ```
-falkor-commander
-falkor-commander
+falkor-commander [(-- <answers>...)]
+falkor-commander [(-- <answers>...)]
 falkor-commander (-v | --version | -h | --help)
 ```
 
@@ -25,6 +25,9 @@ Description
 
 `-h`, `--help`
 :   Show help and exit
+
+`-- <answers>...`
+:   Treat all positional arguments after double dash as buffered answers
 
 # COPYRIGHT
 
