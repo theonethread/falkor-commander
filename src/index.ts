@@ -12,7 +12,7 @@ type PluginDescriptor = {
 
 class FalkorCommander extends falkor.TaskRunner {
     constructor(argv: minimist.ParsedArgs) {
-        super("Commander");
+        super("Commander", argv._.length ? argv._.map((i) => i.toString()) : null);
 
         this.logger
             .pushPrompt(this.theme.formatDebug(this.debugPrompt))
