@@ -12,12 +12,9 @@ type PluginDescriptor = {
 
 class FalkorCommander extends falkor.TaskRunner {
     constructor(argv: minimist.ParsedArgs) {
-        super("Commander");
+        super("Commander", argv["--"]?.length ? argv["--"] : null);
 
-        this.logger
-            .pushPrompt(this.theme.formatDebug(this.debugPrompt))
-            .debug(`${this.theme.formatSeverityError(0, "ARGV:")} ${JSON.stringify(argv)}`)
-            .popPrompt();
+        this.logger.debug(`${this.debugPrompt} ${this.theme.formatSeverityError(0, "ARGV:")} ${JSON.stringify(argv)}`);
 
         this.main().then(() => process.exit(0));
     }
@@ -69,7 +66,7 @@ class FalkorCommander extends falkor.TaskRunner {
         this.logger.notice(`testing if 'cwd' is plugin (${this.theme.formatPath(this.cwd)})`);
         const pluginTestPkg = this.testPackage(this.cwd);
         if (pluginTestPkg) {
-            this.logger.info(`'cwd' is plugin, running in test mode`);
+            this.logger.info(`'cwd' is plugin, running in single-plugin test mode`);
             await this.testPlugin(pluginTestPkg);
             return;
         }
@@ -131,7 +128,6 @@ class FalkorCommander extends falkor.TaskRunner {
             moduleExports = (await import(descriptor.module)).default;
         } catch (e) {
             this.logger.warning(`failed to import module '${this.theme.formatDebug(descriptor.name)}'`).debug(e);
-
             return;
         }
         if (!Array.isArray(moduleExports)) {
@@ -166,7 +162,8 @@ class FalkorCommander extends falkor.TaskRunner {
     }
 }
 
-const argv = minimist(process.argv.slice(2));
+// NOTE: differentiate between positional arguments, and options passed after "--" POSIX separator
+const argv = minimist(process.argv.slice(2), { "--": true, string: "--" });
 if (argv.v || argv.version) {
     (await import("./cli/index-cli.js")).default(true);
     process.exit(0);

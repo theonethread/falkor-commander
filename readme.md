@@ -7,12 +7,35 @@
 [![Security](https://img.shields.io/github/workflow/status/theonethread/falkor-commander/Falkor%20CI%20-%20Security?label=security "Security")](https://github.com/theonethread/falkor-commander/actions "Visit") &nbsp;
 [![Activity](https://img.shields.io/github/last-commit/theonethread/falkor-commander "Activity")](https://github.com/theonethread/falkor-bundler "Visit") &nbsp;
 [![Falkor Bundler](https://img.shields.io/npm/dependency-version/@falkor/falkor-commander/dev/@falkor/falkor-bundler "Falkor Bundler")](https://www.npmjs.com/package/@falkor/falkor-bundler "Visit") &nbsp;
+[![Falkor Library](https://img.shields.io/npm/dependency-version/@falkor/falkor-commander/@falkor/falkor-library "Falkor Library")](https://www.npmjs.com/package/@falkor/falkor-library "Visit") &nbsp;
 [![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/theonethread/falkor-commander "Snyk")](https://snyk.io/test/github/theonethread/falkor-commander "Visit") &nbsp;
 [![License](https://img.shields.io/npm/l/@falkor/falkor-commander "MIT")](https://github.com/theonethread/falkor-bundler/blob/master/license.txt "Visit")
 
 ```javascript
 // Work In Progress
 ```
+
+The `falkor-commander` project is a standalone `npm` command-line application written in strict ES6 TypeScript. It is a plugin based task runner / - sequencer using the [`@falkor/falkor-library`](https://www.npmjs.com/package/@falkor/falkor-library "Visit") to make everyday DevOps tasks more approachable, friendly, and secure in the terminal for non-technical people.
+
+## **Usage**
+
+Since both the workflow and API are subjects to change, if you want to follow the development of the project there is an up-to-date testing repository at [`falkor-plugin-example`](https://github.com/theonethread/falkor-plugin-example "Visit") to demonstrate framework capabilities, which you can use to test features, or as a boilerplate for your own task / sequence for now.
+
+### **Command Line Interface**
+
+Usage:
+
+```
+falkor-commander [(-- <answers>...)]
+falkor-commander [(-- <answers>...)]
+falkor-commander (-v | --version | -h | --help)
+```
+
+Options:
+
+* `-v` or `--version`: Show version and exit
+* `-h` or `--help`: Show help and exit
+* `-- <answers>...`: Treat all positional arguments after double dash as buffered answers
 
 ## **Further Development**
 
