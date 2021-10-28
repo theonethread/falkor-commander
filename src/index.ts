@@ -12,12 +12,9 @@ type PluginDescriptor = {
 
 class FalkorCommander extends falkor.TaskRunner {
     constructor(argv: minimist.ParsedArgs) {
-        super("Commander", argv._.length ? argv._.map((i) => i.toString()) : null);
+        super("Commander", argv["--"]?.length ? argv["--"] : null);
 
-        this.logger
-            .pushPrompt(this.theme.formatDebug(this.debugPrompt))
-            .debug(`${this.theme.formatSeverityError(0, "ARGV:")} ${JSON.stringify(argv)}`)
-            .popPrompt();
+        this.logger.debug(`${this.debugPrompt} ${this.theme.formatSeverityError(0, "ARGV:")} ${JSON.stringify(argv)}`);
 
         this.main().then(() => process.exit(0));
     }
@@ -165,7 +162,8 @@ class FalkorCommander extends falkor.TaskRunner {
     }
 }
 
-const argv = minimist(process.argv.slice(2));
+// NOTE: differentiate between positional arguments, and options passed after "--" POSIX separator
+const argv = minimist(process.argv.slice(2), { "--": true, string: "--" });
 if (argv.v || argv.version) {
     (await import("./cli/index-cli.js")).default(true);
     process.exit(0);
