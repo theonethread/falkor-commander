@@ -72,6 +72,7 @@ export default class FalkorCommander extends falkor.TaskRunner {
 
     protected async select(question: string, answers: string[]): Promise<string> {
         const selection = (await this.terminal.ask(question, {
+            // NOTE: exit is a restricted task ID, so safe to concat
             answers: answers.concat("exit"),
             list: true
         })) as string;
