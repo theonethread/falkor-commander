@@ -29,7 +29,7 @@ export default class FalkorCommander extends falkor.TaskRunner {
         this.argv = argv;
 
         this.logger
-            .pushPrompt(this.theme.formatDebug(this.debugPrompt))
+            .pushPrompt(this.debugPrompt)
             .debug(`${this.theme.formatSeverityError(0, "TASK BUFFER:")} ${JSON.stringify(this.taskBuffer)}`)
             .debug(`${this.theme.formatSeverityError(0, "ARGV:")} ${JSON.stringify(this.argv)}`)
             .popPrompt();
