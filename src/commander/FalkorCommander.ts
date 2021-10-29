@@ -209,7 +209,7 @@ export default class FalkorCommander extends falkor.TaskRunner {
                         argvStr = argvStr.substr(2);
                     }
                     taskVector[taskId] = minimist(
-                        falkor.util.tokenize(argvStr.replace(new RegExp(replacer, "g"), "-")),
+                        falkor.util.tokenize(argvStr.replace(new RegExp("\\" + replacer, "g"), "-")),
                         {
                             "--": true
                         }
