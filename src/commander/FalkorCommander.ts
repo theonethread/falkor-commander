@@ -11,10 +11,23 @@ type PluginDescriptor = {
 };
 
 export default class FalkorCommander extends falkor.TaskRunner {
+    protected taskBuffer: string[];
+
     constructor(protected scope: string, protected keyword: string, argv: minimist.ParsedArgs) {
         super("Commander", argv["--"]?.length ? argv["--"] : null);
+        delete argv["--"];
 
-        this.logger.debug(`${this.debugPrompt} ${this.theme.formatSeverityError(0, "ARGV:")} ${JSON.stringify(argv)}`);
+        this.taskBuffer = argv._.length ? argv._ : null;
+        delete argv._;
+        if (Object.keys(argv).length === 0) {
+            argv = null;
+        }
+
+        this.logger
+            .pushPrompt(this.theme.formatDebug(this.debugPrompt))
+            .debug(`${this.theme.formatSeverityError(0, "TASK BUFFER:")} ${JSON.stringify(this.taskBuffer)}`)
+            .debug(`${this.theme.formatSeverityError(0, "ARGV:")} ${JSON.stringify(argv)}`)
+            .popPrompt();
 
         this.main().then(() => process.exit(0));
     }
@@ -24,6 +37,11 @@ export default class FalkorCommander extends falkor.TaskRunner {
         await this.initPlugins();
         this.endSubtaskSuccess("done");
 
+        if (this.taskBuffer) {
+            this.logger.info(`${this.infoPrompt} running user buffered tasks`);
+            return this.run(this.taskBuffer);
+        }
+
         const loadedTasks = Object.keys(this.collection).sort();
         switch (loadedTasks.length) {
             case 0:
@@ -31,13 +49,13 @@ export default class FalkorCommander extends falkor.TaskRunner {
                     `${this.infoPrompt} no plugins found ${this.theme.formatNotice("(assuming fresh install)")}`
                 );
                 return this.freshInstall();
-            case 1:
-                this.logger.info(
-                    `${this.infoPrompt} only one plugin found ${this.theme.formatNotice("(starting automatically)")}`
-                );
-                return this.run(loadedTasks);
+            // case 1:
+            //     this.logger.info(
+            //         `${this.infoPrompt} only one plugin found ${this.theme.formatNotice("(starting automatically)")}`
+            //     );
+            //     return this.run(loadedTasks);
             default:
-                return this.run(await this.select(loadedTasks));
+                return this.selectLoop(loadedTasks);
         }
     }
 
@@ -48,17 +66,23 @@ export default class FalkorCommander extends falkor.TaskRunner {
         this.endSubtaskSuccess("success");
     }
 
-    protected async select(answers: string[]): Promise<string[]> {
-        this.startSubtask("Plugin Selection");
-        const selection = (await this.terminal.ask("Select plugin(s) to run:", {
-            answers,
-            list: true,
-            multi: true
-        })) as string[];
+    protected async selectLoop(loadedTasks: string[]): Promise<void> {
+        await this.run(await this.select("Select task to run:", loadedTasks));
+        return this.selectLoop(loadedTasks);
+    }
+
+    protected async select(question: string, answers: string[]): Promise<string> {
+        const selection = (await this.terminal.ask(question, {
+            answers: answers.concat("exit"),
+            list: true
+        })) as string;
         if (selection === null) {
             this.endSubtaskError("failed input");
         }
-        this.endSubtaskSuccess("success");
+        if (selection === "exit") {
+            this.logger.debug(`${this.debugPrompt} exiting`);
+            process.exit(0);
+        }
         return selection;
     }
 
