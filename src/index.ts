@@ -17,7 +17,7 @@ Object.keys(argv).forEach((arg) => {
         case "s":
         case "scope":
             if (typeof argv[arg] !== "string" || !/^@/.test(argv[arg])) {
-                console.error(
+                console.log(
                     `'scope: -${arg.length > 1 ? "-" : ""}${arg}' must be string starting with '@' (using argument: ${
                         argv[arg]
                     })`
@@ -30,7 +30,7 @@ Object.keys(argv).forEach((arg) => {
         case "k":
         case "keyword":
             if (typeof argv[arg] !== "string") {
-                console.error(
+                console.log(
                     `'keyword: -${arg.length > 1 ? "-" : ""}${arg}' must be string (using argument: ${argv[arg]})`
                 );
                 process.exit(1);
