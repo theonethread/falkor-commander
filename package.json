@@ -22,7 +22,12 @@
   "keywords": [
     "falkor",
     "operations",
-    "commander"
+    "commander",
+    "cli",
+    "automation",
+    "task-runner",
+    "task-sequencer",
+    "task-queue"
   ],
   "type": "module",
   "main": ".dist/index.js",
