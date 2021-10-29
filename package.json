@@ -46,7 +46,8 @@
     "debug": "rimraf .dist/**/* && falkor-bundler --debug --input src/index.ts && falkor-bundler --debug --input src/cli/version.ts --out .dist/cli",
     "release": "rimraf .dist/**/* && falkor-bundler --release --input src/index.ts && falkor-bundler --release --input src/cli/version.ts --out .dist/cli",
     "man": "pandoc --version && (mkdir .man || rimraf .man/**/*) && pandoc --standalone --to man ./man/man.md --output ./.man/falkor-commander.1",
-    "prepublishOnly": "npm ci && npm run release && npm run man"
+    "prepublishOnly": "npm ci && npm run release && npm run man",
+    "start": "node .dist/index.js"
   },
   "devDependencies": {
     "@types/node": "14.17.29",

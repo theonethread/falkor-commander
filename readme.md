@@ -26,8 +26,8 @@ Since both the workflow and API are subjects to change, if you want to follow th
 Usage:
 
 ```
-falkor-commander [(-- <answers>...)]
-falkor-commander [(-- <answers>...)]
+falkor-commander [(--scope <scope>)] [(--keyword <keyword>)] [(-- <answers>...)]
+falkor-commander [(--s <scope>)] [(--k <keyword>)] [(-- <answers>...)]
 falkor-commander (-v | --version | -h | --help)
 ```
 
@@ -35,7 +35,9 @@ Options:
 
 * `-v` or `--version`: Show version and exit
 * `-h` or `--help`: Show help and exit
-* `-- <answers>...`: Treat all positional arguments after double dash as buffered answers
+* `-s <scope>` or `--scope <scope>`: The scope to look for plugins under `node_modules` (default: `@falkor`)
+* `-k <keyword>` or `--keyword <keyword>`: The keyword to look for in plugin candidates' `package.json` (default: `@falkor-plugin`)
+* `-- <answers>...`: Treat all positional arguments after double dash as buffered input
 
 ## **Further Development**
 
