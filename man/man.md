@@ -9,8 +9,8 @@
 # SYNOPSIS
 
 ```
-falkor-commander [(--scope <scope>)] [(--keyword <keyword>)] [(-- <answers>...)]
-falkor-commander [(--s <scope>)] [(--k <keyword>)] [(-- <answers>...)]
+falkor-commander [(--scope <scope>)] [(--keyword <keyword>)] [<tasks>...] [(-- <answers>...)]
+falkor-commander [(--s <scope>)] [(--k <keyword>)] [<tasks>...] [(-- <answers>...)]
 falkor-commander (-v | --version | -h | --help)
 ```
 
@@ -31,6 +31,9 @@ Description
 
 `-k <keyword>`, `--keyword <keyword>`
 :   The keyword to look for in plugin candidates' **package.json** (default: **@falkor-plugin**)
+
+`<tasks>...`
+:   Treat all positional arguments as buffered task IDs
 
 `-- <answers>...`
 :   Treat all positional arguments after double dash as buffered input
