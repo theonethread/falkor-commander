@@ -12,6 +12,7 @@ type PluginDescriptor = {
 
 export default class FalkorCommander extends falkor.TaskRunner {
     protected taskBuffer: string[];
+    protected argv: { [key: string]: any };
 
     constructor(protected scope: string, protected keyword: string, argv: minimist.ParsedArgs) {
         super("Commander", argv["--"]?.length ? argv["--"] : null);
@@ -22,11 +23,12 @@ export default class FalkorCommander extends falkor.TaskRunner {
         if (Object.keys(argv).length === 0) {
             argv = null;
         }
+        this.argv = argv;
 
         this.logger
             .pushPrompt(this.theme.formatDebug(this.debugPrompt))
             .debug(`${this.theme.formatSeverityError(0, "TASK BUFFER:")} ${JSON.stringify(this.taskBuffer)}`)
-            .debug(`${this.theme.formatSeverityError(0, "ARGV:")} ${JSON.stringify(argv)}`)
+            .debug(`${this.theme.formatSeverityError(0, "ARGV:")} ${JSON.stringify(this.argv)}`)
             .popPrompt();
 
         this.main().then(() => process.exit(0));
@@ -66,9 +68,10 @@ export default class FalkorCommander extends falkor.TaskRunner {
         this.endSubtaskSuccess("success");
     }
 
-    protected async selectLoop(loadedTasks: string[]): Promise<void> {
-        await this.run(await this.select("Select task to run:", loadedTasks));
-        return this.selectLoop(loadedTasks);
+    protected async selectLoop(selectableTasks: string[]): Promise<void> {
+        const selection = await this.select("Select task to run:", selectableTasks);
+        await this.run(selection, this.getArgumentVector(selection));
+        return this.selectLoop(selectableTasks);
     }
 
     protected async select(question: string, answers: string[]): Promise<string> {
@@ -77,10 +80,11 @@ export default class FalkorCommander extends falkor.TaskRunner {
             list: true
         })) as string;
         if (selection === null) {
-            this.endSubtaskError("failed input");
+            this.logger.error("failed selection");
+            process.exit(1);
         }
         if (selection === "exit") {
-            this.logger.debug(`${this.debugPrompt} exiting`);
+            this.logger.info(`${this.infoPrompt} Goodbye!`).debug(`${this.debugPrompt} exiting`);
             process.exit(0);
         }
         return selection;
@@ -187,5 +191,32 @@ export default class FalkorCommander extends falkor.TaskRunner {
                 `failed to process item of '${this.theme.formatError(falkor.util.getClassChain(item).join(" < "))}'`
             );
         });
+    }
+
+    protected getArgumentVector(taskIdArr: string | string[]): { [key: string]: minimist.ParsedArgs } {
+        if (!Array.isArray(taskIdArr)) {
+            taskIdArr = [taskIdArr];
+        }
+        const taskVector: { [key: string]: minimist.ParsedArgs } = {};
+        if (this.argv) {
+            taskIdArr.forEach((taskId) => {
+                const safeTaskId = taskId.replace(/ /g, "-").toLowerCase();
+                if (this.argv[safeTaskId]) {
+                    let argvStr = this.argv[safeTaskId];
+                    let replacer = "#";
+                    if (/^:. /.test(argvStr)) {
+                        replacer = argvStr[1];
+                        argvStr = argvStr.substr(2);
+                    }
+                    taskVector[taskId] = minimist(
+                        falkor.util.tokenize(argvStr.replace(new RegExp(replacer, "g"), "-")),
+                        {
+                            "--": true
+                        }
+                    );
+                }
+            });
+        }
+        return taskVector;
     }
 }
