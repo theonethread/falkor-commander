@@ -11,6 +11,9 @@ type PluginDescriptor = {
 };
 
 export default class FalkorCommander extends falkor.TaskRunner {
+    private readonly spaceRe = / /g;
+    private argvReplacerRe = /^:. /;
+
     protected taskBuffer: string[];
     protected argv: { [key: string]: any };
 
@@ -45,20 +48,13 @@ export default class FalkorCommander extends falkor.TaskRunner {
         }
 
         const loadedTasks = Object.keys(this.collection).sort();
-        switch (loadedTasks.length) {
-            case 0:
-                this.logger.info(
-                    `${this.infoPrompt} no plugins found ${this.theme.formatNotice("(assuming fresh install)")}`
-                );
-                return this.freshInstall();
-            // case 1:
-            //     this.logger.info(
-            //         `${this.infoPrompt} only one plugin found ${this.theme.formatNotice("(starting automatically)")}`
-            //     );
-            //     return this.run(loadedTasks);
-            default:
-                return this.selectLoop(loadedTasks);
+        if (loadedTasks.length === 0) {
+            this.logger.info(
+                `${this.infoPrompt} no plugins found ${this.theme.formatNotice("(assuming fresh install)")}`
+            );
+            return this.freshInstall();
         }
+        return this.selectLoop(loadedTasks);
     }
 
     protected async freshInstall(): Promise<void> {
@@ -70,7 +66,7 @@ export default class FalkorCommander extends falkor.TaskRunner {
 
     protected async selectLoop(selectableTasks: string[]): Promise<void> {
         const selection = await this.select("Select task to run:", selectableTasks);
-        await this.run(selection, this.getArgumentVector(selection));
+        await this.run(selection, this.getArgumentsForTasks(selection));
         return this.selectLoop(selectableTasks);
     }
 
@@ -193,18 +189,18 @@ export default class FalkorCommander extends falkor.TaskRunner {
         });
     }
 
-    protected getArgumentVector(taskIdArr: string | string[]): { [key: string]: minimist.ParsedArgs } {
+    protected getArgumentsForTasks(taskIdArr: string | string[]): { [key: string]: minimist.ParsedArgs } {
         if (!Array.isArray(taskIdArr)) {
             taskIdArr = [taskIdArr];
         }
         const taskVector: { [key: string]: minimist.ParsedArgs } = {};
         if (this.argv) {
             taskIdArr.forEach((taskId) => {
-                const safeTaskId = taskId.replace(/ /g, "-").toLowerCase();
+                const safeTaskId = taskId.replace(this.spaceRe, "-").toLowerCase();
                 if (this.argv[safeTaskId]) {
                     let argvStr = this.argv[safeTaskId];
                     let replacer = "#";
-                    if (/^:. /.test(argvStr)) {
+                    if (this.argvReplacerRe.test(argvStr)) {
                         replacer = argvStr[1];
                         argvStr = argvStr.substr(2);
                     }
