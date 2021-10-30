@@ -63,7 +63,7 @@ const argv = {
 }
 ```
 
-If for some reason the `#` character is reserved in your workflow, it can be substituted with any special character starting the value with `:<special-char> ` sequence:
+If for some reason the `#` character is reserved in your workflow, it can be substituted with any special character starting the value with the `:<special-char> ` sequence:
 
 ```
 --example-task ":$ $$debug $V $a10 $$key key-value positional-value $$ extra-value"
