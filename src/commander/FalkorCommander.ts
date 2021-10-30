@@ -2,7 +2,7 @@ import { posix as path } from "path";
 import { pathToFileURL } from "url";
 
 import minimist from "minimist";
-import falkor from "@falkor/falkor-library";
+import { TaskRunner, Task, util as falkorUtil } from "@falkor/falkor-library";
 
 type PluginDescriptor = {
     name: string;
@@ -10,12 +10,13 @@ type PluginDescriptor = {
     module: string;
 };
 
-export default class FalkorCommander extends falkor.TaskRunner {
+export default class FalkorCommander extends TaskRunner {
     private readonly spaceRe = / /g;
     private argvReplacerRe = /^:. /;
 
     protected taskBuffer: string[];
-    protected argv: { [key: string]: any };
+    protected initArgv: { [key: string]: any };
+    protected pluginArgv: { [key: string]: minimist.ParsedArgs } = {};
 
     constructor(protected scope: string, protected keyword: string, argv: minimist.ParsedArgs) {
         super("Commander", argv["--"]?.length ? argv["--"] : null);
@@ -26,15 +27,36 @@ export default class FalkorCommander extends falkor.TaskRunner {
         if (Object.keys(argv).length === 0) {
             argv = null;
         }
-        this.argv = argv;
+        this.initArgv = argv;
 
         this.logger
             .pushPrompt(this.debugPrompt)
             .debug(`${this.theme.formatSeverityError(0, "TASK BUFFER:")} ${JSON.stringify(this.taskBuffer)}`)
-            .debug(`${this.theme.formatSeverityError(0, "ARGV:")} ${JSON.stringify(this.argv)}`)
+            .debug(`${this.theme.formatSeverityError(0, "ARGV:")} ${JSON.stringify(this.initArgv)}`)
             .popPrompt();
 
         this.main().then(() => process.exit(0));
+    }
+
+    public register(task: Task): void {
+        super.register(task);
+        if (this.initArgv) {
+            const safeTaskId = task.id.replace(this.spaceRe, "-").toLowerCase();
+            if (this.initArgv[safeTaskId]) {
+                let argvStr = this.initArgv[safeTaskId];
+                let replacer = "#";
+                if (this.argvReplacerRe.test(argvStr)) {
+                    replacer = argvStr[1];
+                    argvStr = argvStr.substr(2);
+                }
+                this.pluginArgv[task.id] = minimist(
+                    falkorUtil.tokenize(argvStr.replace(new RegExp("\\" + replacer, "g"), "-")),
+                    {
+                        "--": true
+                    }
+                );
+            }
+        }
     }
 
     protected async main(): Promise<void> {
@@ -44,7 +66,7 @@ export default class FalkorCommander extends falkor.TaskRunner {
 
         if (this.taskBuffer) {
             this.logger.info(`${this.infoPrompt} running user buffered tasks`);
-            return this.run(this.taskBuffer);
+            return this.run(this.taskBuffer, this.pluginArgv);
         }
 
         const loadedTasks = Object.keys(this.collection).sort();
@@ -66,7 +88,7 @@ export default class FalkorCommander extends falkor.TaskRunner {
 
     protected async selectLoop(selectableTasks: string[]): Promise<void> {
         const selection = await this.select("Select task to run:", selectableTasks);
-        await this.run(selection, this.getArgumentsForTasks(selection));
+        await this.run(selection, this.pluginArgv);
         return this.selectLoop(selectableTasks);
     }
 
@@ -99,12 +121,14 @@ export default class FalkorCommander extends falkor.TaskRunner {
         this.logger.notice(
             `'cwd' is not plugin, discovering scope '${this.theme.formatPath(
                 this.scope
-            )}' with keyword '${this.theme.formatPath(this.keyword)}'`
+            )}' with required keyword '${this.theme.formatPath(this.keyword)}'`
         );
 
         for (const descriptor of this.testModule(this.cwd)) {
             await this.testPlugin(descriptor);
         }
+
+        delete this.initArgv;
     }
 
     protected testPackage(dir: string): PluginDescriptor {
@@ -163,7 +187,7 @@ export default class FalkorCommander extends falkor.TaskRunner {
             moduleExports = [moduleExports];
         }
         moduleExports.forEach((item) => {
-            if (item instanceof falkor.Task) {
+            if (item instanceof Task) {
                 this.register(item);
                 this.logger.info(`${this.theme.formatSuccess("registered")} task '${this.theme.formatDebug(item.id)}'`);
                 return;
@@ -185,35 +209,8 @@ export default class FalkorCommander extends falkor.TaskRunner {
             }
             //#endif
             this.logger.debug(
-                `failed to process item of '${this.theme.formatError(falkor.util.getClassChain(item).join(" < "))}'`
+                `failed to process item of '${this.theme.formatError(falkorUtil.getClassChain(item).join(" < "))}'`
             );
         });
-    }
-
-    protected getArgumentsForTasks(taskIdArr: string | string[]): { [key: string]: minimist.ParsedArgs } {
-        if (!Array.isArray(taskIdArr)) {
-            taskIdArr = [taskIdArr];
-        }
-        const taskVector: { [key: string]: minimist.ParsedArgs } = {};
-        if (this.argv) {
-            taskIdArr.forEach((taskId) => {
-                const safeTaskId = taskId.replace(this.spaceRe, "-").toLowerCase();
-                if (this.argv[safeTaskId]) {
-                    let argvStr = this.argv[safeTaskId];
-                    let replacer = "#";
-                    if (this.argvReplacerRe.test(argvStr)) {
-                        replacer = argvStr[1];
-                        argvStr = argvStr.substr(2);
-                    }
-                    taskVector[taskId] = minimist(
-                        falkor.util.tokenize(argvStr.replace(new RegExp("\\" + replacer, "g"), "-")),
-                        {
-                            "--": true
-                        }
-                    );
-                }
-            });
-        }
-        return taskVector;
     }
 }
