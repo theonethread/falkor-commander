@@ -82,7 +82,7 @@ export default class FalkorCommander extends TaskRunner {
                 .fatal(`${this.errorPrompt} ${this.prefix} Commander failed`)
                 .debug(`${this.debugPrompt} ${error.stack ? error.stack : error.name + ": " + error.message}`)
                 .error(
-                    `${this.theme.formatTask(this.appName)} error ${this.theme.formatInfo(
+                    `${this.prefix} ${this.theme.formatTask(this.appName)} error ${this.theme.formatInfo(
                         `(${error.message} ${this.theme.formatTrace(
                             `in ${falkorUtil.prettyTime(process.hrtime(this.startTime))}`
                         )})`
