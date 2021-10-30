@@ -76,10 +76,10 @@ export default class FalkorCommander extends TaskRunner {
         this.logger.info(`${this.theme.formatSuccess("registered")} task '${this.theme.formatDebug(task.id)}'`);
     }
 
-    protected handleError(error: Error): void {
+    protected handleError(error: Error): Error | FalkorError {
         if (!this.subtaskTitles.length) {
             this.logger
-                .fatal(`${this.errorPrompt} commander failed`)
+                .fatal(`${this.errorPrompt} ${this.prefix} Commander failed`)
                 .debug(`${this.debugPrompt} ${error.stack ? error.stack : error.name + ": " + error.message}`)
                 .error(
                     `${this.theme.formatTask(this.appName)} error ${this.theme.formatInfo(
@@ -91,7 +91,7 @@ export default class FalkorCommander extends TaskRunner {
             throw error;
         }
 
-        super.handleError(error);
+        return this.handleError(super.handleError(error, true));
     }
 
     protected async main(): Promise<void> {
