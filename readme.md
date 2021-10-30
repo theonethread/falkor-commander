@@ -40,6 +40,22 @@ Options:
 * `<tasks>...`: Treat all positional arguments as buffered task IDs
 * `-- <answers>...`: Treat all positional arguments after double dash as buffered input
 
+Task Specific Options:
+
+Since version `1.0.0-beta.2` it is possible to forward command line arguments to individual tasks of plugins. To compose such option, one has to use the task's escaped ID (all lowercase, spaces replaced with dashes) after double dash, eg. `Example Task` becomes `--example-task`.
+
+The value of such an option is similar to command line options, only using `#` instead of `-`, so building on the previous example eg.:
+
+```
+--example-task "##debug #V #a10 ##key key-value positional-value ## extra-value"
+```
+
+If for some reason the `#` character is reserved in your workflow, it can be substituted with any special character starting the value with `:<special-char> ` sequence:
+
+```
+--example-task ":$ $$debug $V $a10 $$key key-value positional-value $$ extra-value"
+```
+
 ## **Further Development**
 
 The project uses the [`@falkor/falkor-bundler`](https://www.npmjs.com/package/@falkor/falkor-bundler "Visit") module to compile sources. One can use the commands in the root directory:
