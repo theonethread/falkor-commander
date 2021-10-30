@@ -47,7 +47,7 @@ export default class FalkorCommander extends TaskRunner {
                 let replacer = "#";
                 if (this.argvReplacerRe.test(argvStr)) {
                     replacer = argvStr[1];
-                    argvStr = argvStr.substr(2);
+                    argvStr = argvStr.substr(3);
                 }
                 this.pluginArgv[task.id] = minimist(
                     falkorUtil.tokenize(argvStr.replace(new RegExp("\\" + replacer, "g"), "-")),
