@@ -39,6 +39,14 @@ export default class FalkorCommander extends TaskRunner {
     }
 
     public register(task: Task): void {
+        if (this.taskBuffer && !this.taskBuffer.includes(task.id)) {
+            this.logger.info(
+                `${this.theme.formatWarning("skipped")} task '${this.theme.formatDebug(
+                    task.id
+                )}' (not present in ${this.theme.formatSeverityError(0, "TASK BUFFER")})`
+            );
+            return;
+        }
         super.register(task);
         if (this.initArgv) {
             const safeTaskId = task.id.replace(this.spaceRe, "-").toLowerCase();
@@ -57,6 +65,7 @@ export default class FalkorCommander extends TaskRunner {
                 );
             }
         }
+        this.logger.info(`${this.theme.formatSuccess("registered")} task '${this.theme.formatDebug(task.id)}'`);
     }
 
     protected async main(): Promise<void> {
@@ -189,7 +198,6 @@ export default class FalkorCommander extends TaskRunner {
         moduleExports.forEach((item) => {
             if (item instanceof Task) {
                 this.register(item);
-                this.logger.info(`${this.theme.formatSuccess("registered")} task '${this.theme.formatDebug(item.id)}'`);
                 return;
             }
             //#if _DEBUG
@@ -201,9 +209,6 @@ export default class FalkorCommander extends TaskRunner {
                 );
                 try {
                     this.register(item);
-                    this.logger.info(
-                        `${this.theme.formatSuccess("registered")} task '${this.theme.formatDebug(item.id)}'`
-                    );
                     return;
                 } catch (e) {}
             }
