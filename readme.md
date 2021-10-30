@@ -50,10 +50,10 @@ The value of such an option is similar to command line options, only using `#` i
 --example-task "##debug #V #a10 ##key key-value positional-value ## extra-value"
 ```
 
-This will be parsed by [minimist](https://www.npmjs.com/package/minimist "Visit") after transformation to:
+This will be parsed by [minimist](https://www.npmjs.com/package/minimist "Visit") after transformation, and passed to the specific tasks' `run` method as:
 
 ```javascript
-argv = {
+const argv = {
     debug: true,
     V: true,
     a: 10,
