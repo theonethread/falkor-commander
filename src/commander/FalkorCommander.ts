@@ -2,7 +2,7 @@ import { posix as path } from "path";
 import { pathToFileURL } from "url";
 
 import minimist from "minimist";
-import { TaskRunner, Task, util as falkorUtil } from "@falkor/falkor-library";
+import { TaskRunner, Task, util as falkorUtil, FalkorError } from "@falkor/falkor-library";
 
 type PluginDescriptor = {
     name: string;
@@ -10,10 +10,15 @@ type PluginDescriptor = {
     module: string;
 };
 
+const enum FalkorCommanderErrorCodes {
+    MISSING_BUFFERED_TASK = "commander-buffered-error"
+}
+
 export default class FalkorCommander extends TaskRunner {
     private readonly spaceRe = / /g;
     private argvReplacerRe = /^:. /;
 
+    protected startTime: [number, number];
     protected taskBuffer: string[];
     protected initArgv: { [key: string]: any };
     protected pluginArgv: { [key: string]: minimist.ParsedArgs } = {};
@@ -35,13 +40,16 @@ export default class FalkorCommander extends TaskRunner {
             .debug(`${this.theme.formatSeverityError(0, "ARGV:")} ${JSON.stringify(this.initArgv)}`)
             .popPrompt();
 
-        this.main().then(() => process.exit(0));
+        this.startTime = process.hrtime();
+        this.main()
+            .then(() => process.exit(0))
+            .catch(() => process.exit(1));
     }
 
     public register(task: Task): void {
         if (this.taskBuffer && !this.taskBuffer.includes(task.id)) {
             this.logger.info(
-                `${this.theme.formatWarning("skipped")} task '${this.theme.formatDebug(
+                `${this.theme.formatWarning(`${this.warningPrompt} skipped`)} task '${this.theme.formatDebug(
                     task.id
                 )}' (not present in ${this.theme.formatSeverityError(0, "TASK BUFFER")})`
             );
@@ -68,13 +76,49 @@ export default class FalkorCommander extends TaskRunner {
         this.logger.info(`${this.theme.formatSuccess("registered")} task '${this.theme.formatDebug(task.id)}'`);
     }
 
+    protected handleError(error: Error): void {
+        if (!this.subtaskTitles.length) {
+            this.logger
+                .fatal(`${this.errorPrompt} commander failed`)
+                .debug(`${this.debugPrompt} ${error.stack ? error.stack : error.name + ": " + error.message}`)
+                .error(
+                    `${this.theme.formatTask(this.appName)} error ${this.theme.formatInfo(
+                        `(${error.message} ${this.theme.formatTrace(
+                            `in ${falkorUtil.prettyTime(process.hrtime(this.startTime))}`
+                        )})`
+                    )}`
+                );
+            throw error;
+        }
+
+        super.handleError(error);
+    }
+
     protected async main(): Promise<void> {
         this.startSubtask("Initialization");
         await this.initPlugins();
         this.endSubtaskSuccess("done");
 
         if (this.taskBuffer) {
-            this.logger.info(`${this.infoPrompt} running user buffered tasks`);
+            const missingTasks = this.taskBuffer.filter((id) => !this.collection[id]);
+            if (missingTasks.length) {
+                this.logger.error(
+                    `${this.errorPrompt} missing user buffered task(s): ${this.theme.formatDebug(
+                        missingTasks.toString()
+                    )}`
+                );
+                this.handleError(
+                    new FalkorError(
+                        FalkorCommanderErrorCodes.MISSING_BUFFERED_TASK,
+                        "FalkorCommander: missing user buffered task(s)"
+                    )
+                );
+            }
+            this.logger.info(
+                `${this.infoPrompt} running user buffered task(s): ${this.theme.formatDebug(
+                    this.taskBuffer.toString()
+                )}`
+            );
             return this.run(this.taskBuffer, this.pluginArgv);
         }
 
