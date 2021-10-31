@@ -18,17 +18,24 @@ export default class FalkorCommander extends TaskRunner {
     private readonly spaceRe = / /g;
     private readonly argvReplacerRe = /^:. /;
 
+    protected scope: string;
+    protected keyword: string;
     protected startTime: [number, number];
     protected taskBuffer: string[];
     protected initArgv: { [key: string]: any };
     protected pluginArgv: { [key: string]: minimist.ParsedArgs } = {};
 
-    constructor(protected scope: string, protected keyword: string, argv: minimist.ParsedArgs) {
+    constructor(argv: minimist.ParsedArgs) {
         super("Commander", argv["--"]?.length ? argv["--"] : null);
         delete argv["--"];
-
         this.taskBuffer = argv._.length ? argv._ : null;
         delete argv._;
+        this.scope = argv.s || argv.scope || this.config.external?.commander?.scope || "@falkor";
+        delete argv.s;
+        delete argv.scope;
+        this.keyword = argv.k || argv.keyword || this.config.external?.commander?.keyword || "@falkor-plugin";
+        delete argv.k;
+        delete argv.keyword;
         if (Object.keys(argv).length === 0) {
             argv = null;
         }
