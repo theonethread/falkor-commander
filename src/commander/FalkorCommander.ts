@@ -36,8 +36,8 @@ export default class FalkorCommander extends TaskRunner {
 
         this.logger
             .pushPrompt(this.debugPrompt)
-            .debug(`${this.theme.formatSeverityError(0, "TASK BUFFER:")} ${JSON.stringify(this.taskBuffer)}`)
-            .debug(`${this.theme.formatSeverityError(0, "ARGV:")} ${JSON.stringify(this.initArgv)}`)
+            .debug(`${this.theme.formatBullet("TASK BUFFER:")} ${JSON.stringify(this.taskBuffer)}`)
+            .debug(`${this.theme.formatBullet("ARGV:")} ${JSON.stringify(this.initArgv)}`)
             .popPrompt();
 
         this.startTime = process.hrtime();
@@ -51,7 +51,7 @@ export default class FalkorCommander extends TaskRunner {
             this.logger.info(
                 `${this.theme.formatWarning(`${this.warningPrompt} skipped`)} task '${this.theme.formatDebug(
                     task.id
-                )}' (not present in ${this.theme.formatSeverityError(0, "TASK BUFFER")})`
+                )}' (not present in ${this.theme.formatBullet("TASK BUFFER")})`
             );
             return;
         }
