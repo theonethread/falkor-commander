@@ -1,7 +1,5 @@
 import minimist from "minimist";
 
-let scope = "@falkor";
-let keyword = `@falkor-plugin`;
 // NOTE: differentiate between positional arguments, and options passed after "--" POSIX separator
 const argv = minimist(process.argv.slice(2), { "--": true, string: ["--", "_"] });
 if (argv.v || argv.version) {
