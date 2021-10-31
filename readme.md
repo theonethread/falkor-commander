@@ -82,7 +82,7 @@ $ npm run [ debug | release ]
 
 ### **Man Page**
 
-By default the `falkor-commander` project ships with a pre-compiled man page when installed on Unix-like operating systems. The manuals were created by converting the files [`man/man.md`](https://github.com/theonethread/falkor-commander/blob/master/man/man.md "Open") and [`man/shell.md`](https://github.com/theonethread/falkor-commander/blob/master/man/shell.md "Open").
+By default the `falkor-commander` project ships with a pre-compiled man page when installed on Unix-like operating systems. The manual was created by converting the file [`man/man.md`](https://github.com/theonethread/falkor-commander/blob/master/man/man.md "Open").
 
 To recompile the manuals, make sure that [`Pandoc`](https://pandoc.org/ "Visit") is installed, and present in the `PATH`, then run:
 
