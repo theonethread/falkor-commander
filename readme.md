@@ -15,7 +15,7 @@
 // Work In Progress
 ```
 
-The `falkor-commander` project is a standalone `npm` command-line application written in strict ES6 TypeScript. It is a plugin based task runner / - sequencer using the [`@falkor/falkor-library`](https://www.npmjs.com/package/@falkor/falkor-library "Visit") to make everyday DevOps tasks more approachable, friendly, and secure in the terminal for non-technical people.
+The `falkor-commander` project is a standalone `npm` command-line application written in strict ES6 TypeScript. It is a plugin based task runner / -sequencer using the [`@falkor/falkor-library`](https://www.npmjs.com/package/@falkor/falkor-library "Visit") to make everyday devops tasks more approachable, friendly, and secure in the terminal for non-technical people.
 
 ## **Usage**
 
@@ -50,7 +50,7 @@ The value of such an option is similar to command line options, only using `#` i
 --example-task "##debug #V #a10 ##key key-value positional-value ## extra-value"
 ```
 
-This will be parsed by [minimist](https://www.npmjs.com/package/minimist "Visit") after transformation, and passed to the specific tasks' `run` method as:
+This will be parsed by [minimist](https://www.npmjs.com/package/minimist "Visit") after transformation, and passed to the specific task's `run` method as:
 
 ```javascript
 const argv = {
@@ -63,7 +63,7 @@ const argv = {
 }
 ```
 
-If for some reason the `#` character is reserved in your workflow, it can be substituted with any special character starting the value with the `":<special-char> "` sequence:
+If for some reason the `#` character is reserved in your workflow, it can be substituted with an other special character starting the value with the `":<special-char> "` sequence:
 
 ```
 --example-task ":$ $$debug $V $a10 $$key key-value positional-value $$ extra-value"
