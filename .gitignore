@@ -1,4 +1,8 @@
+.falkorrc
 .ops.json
+.ops.jsoc
+falkor.json
+falkor.jsonc
 
 .DS_Store
 .localized

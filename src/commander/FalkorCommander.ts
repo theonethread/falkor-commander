@@ -66,7 +66,7 @@ export default class FalkorCommander extends TaskRunner {
                     argvStr = argvStr.substr(3);
                 }
                 this.pluginArgv[task.id] = minimist(
-                    falkorUtil.tokenize(argvStr.replace(new RegExp("\\" + replacer, "g"), "-")),
+                    falkorUtil.cliTokenize(argvStr.replace(new RegExp("\\" + replacer, "g"), "-")),
                     {
                         "--": true
                     }
