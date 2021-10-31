@@ -15,7 +15,7 @@
 // Work In Progress
 ```
 
-The `falkor-commander` project is a standalone `npm` command-line application written in strict ES6 TypeScript. It is a plugin based task runner / - sequencer using the [`@falkor/falkor-library`](https://www.npmjs.com/package/@falkor/falkor-library "Visit") to make everyday DevOps tasks more approachable, friendly, and secure in the terminal for non-technical people.
+The `falkor-commander` project is a standalone `npm` command-line application written in strict ES6 TypeScript. It is a plugin based task runner / -sequencer using the [`@falkor/falkor-library`](https://www.npmjs.com/package/@falkor/falkor-library "Visit") to make everyday devops tasks more approachable, friendly, and secure in the terminal for non-technical people.
 
 ## **Usage**
 
@@ -26,8 +26,8 @@ Since both the workflow and API are subjects to change, if you want to follow th
 Usage:
 
 ```
-falkor-commander [(-- <answers>...)]
-falkor-commander [(-- <answers>...)]
+falkor-commander [(--scope <scope>)] [(--keyword <keyword>)] [<tasks>...] [(-- <answers>...)]
+falkor-commander [(--s <scope>)] [(--k <keyword>)] [<tasks>...] [(-- <answers>...)]
 falkor-commander (-v | --version | -h | --help)
 ```
 
@@ -35,13 +35,46 @@ Options:
 
 * `-v` or `--version`: Show version and exit
 * `-h` or `--help`: Show help and exit
-* `-- <answers>...`: Treat all positional arguments after double dash as buffered answers
+* `-s <scope>` or `--scope <scope>`: The scope to look for plugins under `node_modules` (default: `@falkor`)
+* `-k <keyword>` or `--keyword <keyword>`: The keyword to look for in plugin candidates' `package.json` (default: `@falkor-plugin`)
+* `<tasks>...`: Treat all positional arguments as buffered task IDs
+* `-- <answers>...`: Treat all positional arguments after double dash as buffered input
+
+Task Specific Options:
+
+It is possible to forward command line arguments to individual tasks exposed by plugins. To compose such option, one has to use the task's escaped ID (spaces replaced with dashes, all lowercase) after double dash, se eg. `Example Task` becomes `--example-task`.
+
+The value of such an option is similar to command line options, only using `#` instead of `-`, so building on the previous example eg.:
+
+```
+--example-task "##debug #V #a10 ##key key-value positional-value ## extra-value"
+```
+
+This will be parsed by [minimist](https://www.npmjs.com/package/minimist "Visit") after transformation, and passed to the specific task's `run` method as:
+
+```javascript
+const argv = {
+    debug: true,
+    V: true,
+    a: 10,
+    key: "key-value"
+    _: ["positional-value"],
+    "--": ["extra-value"]
+}
+```
+
+If for some reason the `#` character is reserved in your workflow, it can be substituted with an other special character starting the value with the `":<special-char> "` sequence:
+
+```
+--example-task ":$ $$debug $V $a10 $$key key-value positional-value $$ extra-value"
+```
 
 ## **Further Development**
 
-The project uses the [`@falkor/falkor-bundler`](https://www.npmjs.com/package/@falkor/falkor-bundler "Visit") module to compile sources. You can run:
+The project uses the [`@falkor/falkor-bundler`](https://www.npmjs.com/package/@falkor/falkor-bundler "Visit") module to compile sources. One can use the commands in the root directory:
 
 ```
+$ npm install
 $ npm run [ debug | release ]
 ```
 
@@ -49,9 +82,9 @@ $ npm run [ debug | release ]
 
 ### **Man Page**
 
-By default the `falkor-commander` project ships with pre-compiled man pages when installed on Unix-like operating systems. The manuals were created by converting the files [`man/man.md`](https://github.com/theonethread/falkor-commander/blob/master/man/man.md "Open") and [`man/shell.md`](https://github.com/theonethread/falkor-commander/blob/master/man/shell.md "Open").
+By default the `falkor-commander` project ships with a pre-compiled man page when installed on Unix-like operating systems. The manual was created by converting the file [`man/man.md`](https://github.com/theonethread/falkor-commander/blob/master/man/man.md "Open").
 
-To recompile the manuals, make sure that [`Pandoc`](https://pandoc.org/ "Visit") is installed, and present in the `PATH`, then run:
+To recompile the manual, make sure that [`Pandoc`](https://pandoc.org/ "Visit") is installed, and present in the `PATH`, then run:
 
 ```
 $ npm run man

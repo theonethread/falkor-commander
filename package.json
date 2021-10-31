@@ -1,6 +1,6 @@
 {
   "name": "@falkor/falkor-commander",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Falkor operations commander",
   "author": {
     "name": "Barnabas Bucsy",
@@ -13,8 +13,9 @@
     }
   ],
   "license": "MIT",
-  "repository": "github:theonethread/falkor-commander",
   "homepage": "https://falkor.world/",
+  "repository": "github:theonethread/falkor-commander",
+  "bugs": "https://github.com/theonethread/falkor-commander/issues",
   "funding": {
     "type": "individual",
     "url": "https://www.linkedin.com/in/barnabas-bucsy"
@@ -22,7 +23,12 @@
   "keywords": [
     "falkor",
     "operations",
-    "commander"
+    "commander",
+    "cli",
+    "automation",
+    "task-runner",
+    "task-sequencer",
+    "task-queue"
   ],
   "type": "module",
   "main": ".dist/index.js",
@@ -38,6 +44,11 @@
   "man": [
     ".man/falkor-commander.1"
   ],
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
   "engines": {
     "node": ">=14",
     "npm": ">=6"
@@ -46,20 +57,24 @@
     "debug": "rimraf .dist/**/* && falkor-bundler --debug --input src/index.ts && falkor-bundler --debug --input src/cli/version.ts --out .dist/cli",
     "release": "rimraf .dist/**/* && falkor-bundler --release --input src/index.ts && falkor-bundler --release --input src/cli/version.ts --out .dist/cli",
     "man": "pandoc --version && (mkdir .man || rimraf .man/**/*) && pandoc --standalone --to man ./man/man.md --output ./.man/falkor-commander.1",
-    "prepublishOnly": "npm ci && npm run release && npm run man"
+    "prepublishOnly": "npm ci && npm run release && npm run man",
+    "start": "node .dist/index.js"
   },
   "devDependencies": {
-    "@types/node": "14.17.29",
+    "@types/node": "14.17.32",
     "@types/shelljs": "0.8.9",
     "@types/figlet": "1.5.4",
     "@types/semver": "7.3.9",
     "@types/minimist": "1.2.2",
     "rimraf": "3.0.2",
-    "@falkor/falkor-bundler": "1.1.5"
+    "@falkor/falkor-bundler": "1.1.6"
   },
   "dependencies": {
     "minimist": "1.2.5",
     "shelljs": "0.8.4",
-    "@falkor/falkor-library": "1.0.0-beta.4"
+    "@falkor/falkor-library": "1.0.0-beta.5"
+  },
+  "optionalDependencies": {
+    "@types/minimist": "1.2.2"
   }
 }
