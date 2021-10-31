@@ -16,7 +16,7 @@ const enum FalkorCommanderErrorCodes {
 
 export default class FalkorCommander extends TaskRunner {
     private readonly spaceRe = / /g;
-    private argvReplacerRe = /^:. /;
+    private readonly argvReplacerRe = /^:. /;
 
     protected startTime: [number, number];
     protected taskBuffer: string[];
