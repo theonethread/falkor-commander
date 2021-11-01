@@ -33,7 +33,7 @@
     "cli",
     "automation",
     "task-runner",
-    "task-sequencer",
+    "task-sequence",
     "task-queue"
   ],
   "type": "module",
