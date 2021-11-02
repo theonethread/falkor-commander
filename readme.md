@@ -71,7 +71,7 @@ If for some reason the `#` character is reserved in your workflow, it can be sub
 
 ## **Further Development**
 
-The project uses the [`@falkor/falkor-bundler`](https://www.npmjs.com/package/@falkor/falkor-bundler "Visit") module to compile sources. One can use the commands in the root directory:
+The project uses the [`@falkor/falkor-bundler`](https://www.npmjs.com/package/@falkor/falkor-bundler "Visit") module to compile sources. One can use the commands in the root directory after cloning the repository:
 
 ```
 $ npm install
@@ -108,17 +108,21 @@ The workflows can be found [here](https://github.com/theonethread/falkor-command
 
 Automatic builds are achieved via GitHub actions, CI will make nightly builds of the `develop` branch (using Ubuntu image), and test `master` when there is a pull request, or commit on it (using Ubuntu - Win - MacOS image matrix).
 
-#### **Security**
+### **Security**
 
 The project uses [CodeQL](https://codeql.github.com "Visit") and [Snyk](https://snyk.io "Visit") to ensure standard security.
 
-> _The **Falkor Framework** supports a healthy and ubiquitous Internet Immune System enabled by security research, reporting, and disclosure. Check out our [Vulnerability Disclosure Policy](https://github.com/theonethread/falkor-bundler/security/policy "Open") - based on [disclose.io](https://disclose.io "Visit")'s best practices._
+> _The **Falkor Framework** supports a healthy and ubiquitous Internet Immune System enabled by security research, reporting, and disclosure. Check out our [Vulnerability Disclosure Policy](https://github.com/theonethread/falkor-commander/security/policy "Open") - based on [disclose.io](https://disclose.io "Visit")'s best practices._
 
-### **Open Source**
+### **Free and Open Source**
 
 The latest sources can always be found on [GitHub](https://github.com/theonethread/falkor-commander "Visit").
 
-### **License**
+#### **Getting Involved**
+
+We believe - and we hope you do too - that learning how to code, how to think, and how to contribute to free- and open source software can empower the next generation of coders and creators. We **value** first time contributors just the same as rock stars of the OSS world, so if you're interested to get involved, just head over to our [Contribution Guidelines](https://github.com/theonethread/.github/blob/master/.github/contributing.md "Open") for a quick heads-up!
+
+#### **License**
 
 [MIT](https://github.com/theonethread/falkor-commander/blob/master/license.txt "Open")
 

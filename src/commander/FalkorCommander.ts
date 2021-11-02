@@ -16,19 +16,26 @@ const enum FalkorCommanderErrorCodes {
 
 export default class FalkorCommander extends TaskRunner {
     private readonly spaceRe = / /g;
-    private argvReplacerRe = /^:. /;
+    private readonly argvReplacerRe = /^:. /;
 
+    protected scope: string;
+    protected keyword: string;
     protected startTime: [number, number];
     protected taskBuffer: string[];
     protected initArgv: { [key: string]: any };
     protected pluginArgv: { [key: string]: minimist.ParsedArgs } = {};
 
-    constructor(protected scope: string, protected keyword: string, argv: minimist.ParsedArgs) {
+    constructor(argv: minimist.ParsedArgs) {
         super("Commander", argv["--"]?.length ? argv["--"] : null);
         delete argv["--"];
-
         this.taskBuffer = argv._.length ? argv._ : null;
         delete argv._;
+        this.scope = argv.s || argv.scope || this.config.external?.commander?.scope || "@falkor";
+        delete argv.s;
+        delete argv.scope;
+        this.keyword = argv.k || argv.keyword || this.config.external?.commander?.keyword || "@falkor-plugin";
+        delete argv.k;
+        delete argv.keyword;
         if (Object.keys(argv).length === 0) {
             argv = null;
         }
@@ -36,8 +43,8 @@ export default class FalkorCommander extends TaskRunner {
 
         this.logger
             .pushPrompt(this.debugPrompt)
-            .debug(`${this.theme.formatSeverityError(0, "TASK BUFFER:")} ${JSON.stringify(this.taskBuffer)}`)
-            .debug(`${this.theme.formatSeverityError(0, "ARGV:")} ${JSON.stringify(this.initArgv)}`)
+            .debug(`${this.theme.formatBullet("TASK BUFFER:")} ${JSON.stringify(this.taskBuffer)}`)
+            .debug(`${this.theme.formatBullet("ARGV:")} ${JSON.stringify(this.initArgv)}`)
             .popPrompt();
 
         this.startTime = process.hrtime();
@@ -51,7 +58,7 @@ export default class FalkorCommander extends TaskRunner {
             this.logger.info(
                 `${this.theme.formatWarning(`${this.warningPrompt} skipped`)} task '${this.theme.formatDebug(
                     task.id
-                )}' (not present in ${this.theme.formatSeverityError(0, "TASK BUFFER")})`
+                )}' (not present in ${this.theme.formatBullet("TASK BUFFER")})`
             );
             return;
         }
@@ -66,7 +73,7 @@ export default class FalkorCommander extends TaskRunner {
                     argvStr = argvStr.substr(3);
                 }
                 this.pluginArgv[task.id] = minimist(
-                    falkorUtil.tokenize(argvStr.replace(new RegExp("\\" + replacer, "g"), "-")),
+                    falkorUtil.cliTokenize(argvStr.replace(new RegExp("\\" + replacer, "g"), "-")),
                     {
                         "--": true
                     }
