@@ -1,6 +1,6 @@
 {
   "name": "@falkor/falkor-commander",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0",
   "description": "Falkor operations commander",
   "author": {
     "name": "Barnabas Bucsy",
