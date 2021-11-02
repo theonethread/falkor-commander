@@ -42,7 +42,7 @@ Options:
 
 Task Specific Options:
 
-It is possible to forward command line arguments to individual tasks exposed by plugins. To compose such option, one has to use the task's escaped ID (spaces replaced with dashes, all lowercase) after double dash, se eg. `Example Task` becomes `--example-task`.
+It is possible to forward command line arguments to individual tasks exposed by plugins. To compose such option, one has to use the task's escaped ID (spaces replaced with dashes, all lowercase) after double dash, so eg. `Example Task` becomes `--example-task`.
 
 The value of such an option is similar to command line options, only using `#` instead of `-`, so building on the previous example eg.:
 
