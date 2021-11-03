@@ -61,7 +61,7 @@ export default class PluginTaskRunner extends TaskRunner {
             //#ifnset _NO_PLUGIN_TEST
             const pluginTestPkg = this.testPackage(this.forcedPluginPath);
             if (pluginTestPkg) {
-                this.logger.info(`forced path is plugin, running in single-plugin test mode`);
+                this.logger.info(`forced path is plugin, running in single-plugin mode`);
                 this.singlePluginMode = true;
                 descriptorArr = [pluginTestPkg];
             } else {
@@ -79,7 +79,7 @@ export default class PluginTaskRunner extends TaskRunner {
             const pluginTestPkg = this.testPackage(this.cwd);
             //#ifnset _NO_PLUGIN_TEST
             if (pluginTestPkg) {
-                this.logger.info(`'cwd' is plugin, running in single-plugin test mode`);
+                this.logger.info(`'cwd' is plugin, running in single-plugin mode`);
                 this.singlePluginMode = true;
                 descriptorArr = [pluginTestPkg];
             } else {
