@@ -48,29 +48,19 @@ export default class FalkorCommander extends PluginTaskRunner {
     protected handleError(error: Error): Error | FalkorError {
         if (!this.subtaskTitles.length) {
             this.logger.fatal(`${this.errorPrompt} ${this.prefix} Commander failed`);
-            if (!this.handlingPluginError) {
-                this.logger
-                    .debug(`${this.debugPrompt} ${error.stack ? error.stack : error.name + ": " + error.message}`)
-                    .error(
-                        `${this.prefix} ${this.theme.formatTask(this.appName)} error ${this.theme.formatInfo(
-                            `(${error.message} ${this.theme.formatTrace(
-                                `in ${falkorUtil.prettyTime(process.hrtime(this.startTime))}`
-                            )})`
-                        )}`
-                    );
-            } else {
-                this.logger.error(
-                    `${this.prefix} ${this.theme.formatTask(this.appName)} plugin subtask error ${this.theme.formatInfo(
+            this.logger
+                .debug(`${this.debugPrompt} ${error.stack ? error.stack : error.name + ": " + error.message}`)
+                .error(
+                    `${this.prefix} ${this.theme.formatTask(this.appName)} error ${this.theme.formatInfo(
                         `(${error.message} ${this.theme.formatTrace(
                             `in ${falkorUtil.prettyTime(process.hrtime(this.startTime))}`
                         )})`
                     )}`
                 );
-            }
+
             throw error;
         }
 
-        this.handlingPluginError = true;
         return this.handleError(super.handleError(error, true));
     }
 
