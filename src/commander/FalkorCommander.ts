@@ -7,6 +7,7 @@ const enum FalkorCommanderErrorCodes {
 }
 
 export default class FalkorCommander extends PluginTaskRunner {
+    protected registry: string;
     protected startTime: [number, number];
     protected handlingPluginError: boolean = false;
 
@@ -24,6 +25,9 @@ export default class FalkorCommander extends PluginTaskRunner {
         this.forcedPluginPath = argv.p || argv.path || this.config.external?.commander?.path || null;
         delete argv.p;
         delete argv.path;
+        this.registry = argv.r || argv.registry || this.config.external?.commander?.registry || null;
+        delete argv.r;
+        delete argv.registry;
         if (Object.keys(argv).length === 0) {
             argv = null;
         }
@@ -113,7 +117,22 @@ export default class FalkorCommander extends PluginTaskRunner {
     }
 
     protected async freshInstall(): Promise<void> {
-        this.register((await import("../task/FreshInstall.js")).default);
+        const freshInstallTask = (await import("../task/FreshInstall.js")).default;
+        this.register(freshInstallTask);
+        if (
+            !(this.config.external?.tasks && this.config.external.tasks[freshInstallTask.id]) &&
+            !this.pluginArgv[freshInstallTask.id]
+        ) {
+            this.logger.info(
+                `no settings for '${this.theme.formatDebug(freshInstallTask.id)}', injecting task arguments`
+            );
+            this.pluginArgv[freshInstallTask.id] = {
+                registry: this.registry,
+                scope: this.scope,
+                keyword: this.keyword,
+                _: []
+            };
+        }
         await this.run();
     }
 

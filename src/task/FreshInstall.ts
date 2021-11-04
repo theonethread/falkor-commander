@@ -70,7 +70,7 @@ class FreshInstall extends Task {
             descriptions.push(p.version);
         });
         const installAnswer = (await this.ask(
-            `Would you like to install any plugins? ${this.theme.formatTrace("(press enter to exit)")}`,
+            `Would you like to install any of the found plugins? ${this.theme.formatTrace("(press enter to exit)")}`,
             {
                 answers,
                 descriptions,
