@@ -1,6 +1,6 @@
 import minimist from "minimist";
 import { util as falkorUtil, FalkorError } from "@falkor/falkor-library";
-import PluginTaskRunner from "../task/PluginTaskRunner.js";
+import PluginTaskRunner from "../commander/PluginTaskRunner.js";
 
 const enum FalkorCommanderErrorCodes {
     MISSING_BUFFERED_TASK = "commander-buffered-error"
@@ -8,6 +8,7 @@ const enum FalkorCommanderErrorCodes {
 
 export default class FalkorCommander extends PluginTaskRunner {
     protected startTime: [number, number];
+    protected handlingPluginError: boolean = false;
 
     constructor(argv: minimist.ParsedArgs) {
         super("Commander", argv["--"]?.length ? argv["--"] : null);
@@ -42,19 +43,30 @@ export default class FalkorCommander extends PluginTaskRunner {
 
     protected handleError(error: Error): Error | FalkorError {
         if (!this.subtaskTitles.length) {
-            this.logger
-                .fatal(`${this.errorPrompt} ${this.prefix} Commander failed`)
-                .debug(`${this.debugPrompt} ${error.stack ? error.stack : error.name + ": " + error.message}`)
-                .error(
-                    `${this.prefix} ${this.theme.formatTask(this.appName)} error ${this.theme.formatInfo(
+            this.logger.fatal(`${this.errorPrompt} ${this.prefix} Commander failed`);
+            if (!this.handlingPluginError) {
+                this.logger
+                    .debug(`${this.debugPrompt} ${error.stack ? error.stack : error.name + ": " + error.message}`)
+                    .error(
+                        `${this.prefix} ${this.theme.formatTask(this.appName)} error ${this.theme.formatInfo(
+                            `(${error.message} ${this.theme.formatTrace(
+                                `in ${falkorUtil.prettyTime(process.hrtime(this.startTime))}`
+                            )})`
+                        )}`
+                    );
+            } else {
+                this.logger.error(
+                    `${this.prefix} ${this.theme.formatTask(this.appName)} plugin subtask error ${this.theme.formatInfo(
                         `(${error.message} ${this.theme.formatTrace(
                             `in ${falkorUtil.prettyTime(process.hrtime(this.startTime))}`
                         )})`
                     )}`
                 );
+            }
             throw error;
         }
 
+        this.handlingPluginError = true;
         return this.handleError(super.handleError(error, true));
     }
 
@@ -64,7 +76,9 @@ export default class FalkorCommander extends PluginTaskRunner {
         if (this.singlePluginMode) {
             this.logger.info(`${this.infoPrompt} starting single plugin mode`);
             return this.run(null, this.pluginArgv);
-        } else if (this.taskBuffer) {
+        }
+
+        if (this.taskBuffer) {
             const missingTasks = this.taskBuffer.filter((id) => !this.collection[id]);
             if (missingTasks.length) {
                 this.logger.error(
@@ -94,14 +108,13 @@ export default class FalkorCommander extends PluginTaskRunner {
             );
             return this.freshInstall();
         }
+
         return this.selectLoop(loadedTasks);
     }
 
     protected async freshInstall(): Promise<void> {
-        this.startSubtask("Fresh Install");
-        // TODO
-        this.logger.debug("// TODO");
-        this.endSubtaskSuccess("success");
+        this.register((await import("../task/FreshInstall.js")).default);
+        await this.run();
     }
 
     protected async selectLoop(selectableTasks: string[]): Promise<void> {

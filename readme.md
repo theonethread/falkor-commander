@@ -13,6 +13,14 @@
 
 The `falkor-commander` project is a standalone `npm` command-line application written in strict ES6 TypeScript. It is a plugin based task runner / -sequencer using the [`@falkor/falkor-library`](https://www.npmjs.com/package/@falkor/falkor-library "Visit") to make everyday devops tasks more approachable, friendly, and secure in the terminal for non-technical people.
 
+## **Installation**
+
+Install the package globally, so it's available in your `PATH`:
+
+```
+$ npm install --global @falkor/falkor-commander
+```
+
 ## **Usage**
 
 There is an up-to-date testing repository at [`falkor-plugin-example`](https://github.com/theonethread/falkor-plugin-example/tree/master "Visit") to demonstrate framework capabilities, which you can use to test features, or as a boilerplate for your own task sequence.
