@@ -30,8 +30,8 @@ There is an up-to-date testing repository at [`falkor-plugin-example`](https://g
 Usage:
 
 ```
-falkor-commander [(--scope <scope>) | (--path <path>)] [(--keyword <keyword>)] [<tasks>...] [(-- <answers>...)]
-falkor-commander [(--s <scope>) | (-p <path>)] [(--k <keyword>)] [<tasks>...] [(-- <answers>...)]
+falkor-commander [(--scope <scope>) | (--path <path>)] [(--keyword <keyword>)] [(--registry <registry>)] [<tasks>...] [(-- <answers>...)]
+falkor-commander [(-s <scope>) | (-p <path>)] [(-k <keyword>)] [(-r <registry>)] [<tasks>...] [(-- <answers>...)]
 falkor-commander (-v | --version | -h | --help)
 ```
 
@@ -42,6 +42,7 @@ Options:
 * `-s <scope>` or `--scope <scope>`: The scope to look for plugins under `node_modules` (default: `@falkor`)
 * `-p <path>` or `--path <path>`: Explicit directory to look for plugins in (overrides scope setting)
 * `-k <keyword>` or `--keyword <keyword>`: The keyword to look for in plugin candidates' `package.json` (default: `@falkor-plugin`)
+* `-r <registry>` or `--registry <registry>`: Registry to use when searching for plugins at fresh install (default: `https://registry.npmjs.org`)
 * `<tasks>...`: Treat all positional arguments as buffered task IDs
 * `-- <answers>...`: Treat all positional arguments after double dash as buffered input
 

@@ -9,8 +9,8 @@
 # SYNOPSIS
 
 ```
-falkor-commander [(--scope <scope>) | (--path <path>)] [(--keyword <keyword>)] [<tasks>...] [(-- <answers>...)]
-falkor-commander [(--s <scope>) | (-p <path>)] [(--k <keyword>)] [<tasks>...] [(-- <answers>...)]
+falkor-commander [(--scope <scope>) | (--path <path>)] [(--keyword <keyword>)] [(--registry <registry>)] [<tasks>...] [(-- <answers>...)]
+falkor-commander [(-s <scope>) | (-p <path>)] [(-k <keyword>)] [(-r <registry>)] [<tasks>...] [(-- <answers>...)]
 falkor-commander (-v | --version | -h | --help)
 ```
 
@@ -34,6 +34,9 @@ The **falkor-commander** project is a standalone npm command-line application wr
 
 `-k <keyword>`, `--keyword <keyword>`
 :   The keyword to look for in plugin candidates' **package.json** (default: **@falkor-plugin**)
+
+`-r <registry>`, `--registry <registry>`
+:   Registry to use when searching for plugins at fresh install (default: **https://registry.npmjs.org**)
 
 `<tasks>...`
 :   Treat all positional arguments as buffered task IDs
