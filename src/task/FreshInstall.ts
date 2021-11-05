@@ -42,6 +42,7 @@ class FreshInstall extends Task {
         this.registry = argv ? argv.r || argv.registry : config?.registry || "https://registry.npmjs.org";
         this.scope = argv ? argv.s || argv.scope : config?.scope || "@falkor";
         this.keyword = argv ? argv.k || argv.keyword : config?.keyword || "falkor"; // || "@falkor-plugin";
+
         this.logger.info(
             `searching npm registry '${this.theme.formatPath(this.registry)}' for scope '${this.theme.formatPath(
                 this.scope
@@ -51,6 +52,7 @@ class FreshInstall extends Task {
         if (!searchResult.success) {
             this.error("failed npm search");
         }
+
         const candidates = (JSON.parse(searchResult.output) as TNpmJsonResponseItem[]).filter((p) =>
             p.keywords.includes(this.keyword)
         );
