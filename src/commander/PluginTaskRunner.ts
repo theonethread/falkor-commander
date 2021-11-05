@@ -137,11 +137,11 @@ export default class PluginTaskRunner extends TaskRunner {
 
     protected testModule(dir: string): PluginDescriptor[] {
         const ret: PluginDescriptor[] = [];
-        this.logger.debug(`testing module path ${this.theme.formatPath(dir)}`);
+        this.logger.debug(`testing path ${this.theme.formatPath(dir)}`);
         if (this.shell.test("-d", dir)) {
             this.shell.ls("-AL", dir).forEach((d) => {
                 const testPath = path.join(dir, d);
-                this.logger.notice(`testing module directory ${this.theme.formatPath(testPath)}`);
+                this.logger.notice(`testing module ${this.theme.formatPath(testPath)}`);
                 const candidate = this.testPackage(testPath);
                 if (candidate) {
                     ret.push(candidate);

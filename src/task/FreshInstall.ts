@@ -60,7 +60,6 @@ class FreshInstall extends Task {
             return this.offerInstall(candidates);
         } else {
             this.logger.info(this.theme.formatWarning("no plugin candidates found, exiting"));
-            this.success("no plugins found");
         }
     }
 
@@ -82,21 +81,22 @@ class FreshInstall extends Task {
             }
         )) as string[];
         if (installAnswer === null) {
-            this.error("failed input");
+            return this.error("failed input");
         }
         if (!installAnswer.length) {
-            this.success("no plugin selected");
+            this.logger.info("no plugin selected");
+            return;
         }
 
         for (const plugin of installAnswer) {
-            this.logger.info(`installing plugin '${this.theme.formatPath(plugin)}'`).pushPrompt();
+            this.subtask(`installing plugin '${this.theme.formatPath(plugin)}'`);
             const installResult = await this.exec(`npm install ${plugin} --global`);
             if (!installResult.success) {
                 this.error("failed npm search");
             }
-            this.logger.info(this.theme.formatSuccess("success")).popPrompt();
+            this.success("installed");
         }
-        this.success("plugins installed");
+        this.logger.info("plugins installed");
     }
 }
 

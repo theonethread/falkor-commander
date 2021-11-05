@@ -65,7 +65,7 @@ export default class FalkorCommander extends PluginTaskRunner {
                 );
 
             if (soft) {
-                // received SIGINT, we are outside of the async main function
+                // received SIGINT, this is handled outside of the async main function
                 // console.log("exit 1");
                 process.exit(1);
             }
