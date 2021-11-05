@@ -130,7 +130,7 @@ export default class FalkorCommander extends PluginTaskRunner {
                 _: []
             };
         }
-        await this.run();
+        await this.run(null, this.pluginArgv);
     }
 
     protected async selectLoop(selectableTasks: string[]): Promise<void> {

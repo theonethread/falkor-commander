@@ -39,9 +39,9 @@ class FreshInstall extends Task {
     }
 
     public async run(argv?: { [key: string]: any }, config?: any): Promise<void> {
-        this.registry = argv ? argv.r || argv.registry : config?.registry || "https://registry.npmjs.org";
-        this.scope = argv ? argv.s || argv.scope : config?.scope || "@falkor";
-        this.keyword = argv ? argv.k || argv.keyword : config?.keyword || "@falkor-plugin";
+        this.registry = argv?.r || argv?.registry || config?.registry || "https://registry.npmjs.org";
+        this.scope = argv?.s || argv?.scope || config?.scope || "@falkor";
+        this.keyword = argv?.k || argv?.keyword || config?.keyword || "@falkor-plugin";
 
         this.logger.info(
             `searching npm registry '${this.theme.formatPath(this.registry)}' for scope '${this.theme.formatPath(
