@@ -45,7 +45,7 @@ export default class FalkorCommander extends PluginTaskRunner {
             .catch(() => process.exit(1));
     }
 
-    protected handleError(error: Error): Error | FalkorError {
+    protected handleError(error: Error, soft: boolean = false): Error | FalkorError {
         if (!this.subtaskTitles.length) {
             this.logger.fatal(`${this.errorPrompt} ${this.prefix} Commander failed`);
             this.logger
@@ -58,10 +58,13 @@ export default class FalkorCommander extends PluginTaskRunner {
                     )}`
                 );
 
+            if (soft) {
+                return error;
+            }
             throw error;
         }
 
-        return this.handleError(super.handleError(error, true));
+        return this.handleError(super.handleError(error, true), soft);
     }
 
     protected async main(): Promise<void> {
