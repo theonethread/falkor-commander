@@ -25,12 +25,13 @@ export default class FalkorCommander extends PluginTaskRunner {
         this.keyword = argv.k || argv.keyword || this.config.external?.commander?.keyword || "@falkor-plugin";
         delete argv.k;
         delete argv.keyword;
+        this.registry =
+            argv.r || argv.registry || this.config.external?.commander?.registry || "https://registry.npmjs.org";
+        delete argv.r;
+        delete argv.registry;
         this.forcedPluginPath = argv.p || argv.path || this.config.external?.commander?.path || null;
         delete argv.p;
         delete argv.path;
-        this.registry = argv.r || argv.registry || this.config.external?.commander?.registry || null;
-        delete argv.r;
-        delete argv.registry;
         if (Object.keys(argv).length === 0) {
             argv = null;
         }
