@@ -1,16 +1,17 @@
 import process from "process";
 import minimist from "minimist";
-import { util as falkorUtil, FalkorError } from "@falkor/falkor-library";
+import { FalkorError } from "@falkor/falkor-library";
 import PluginTaskRunner from "../commander/PluginTaskRunner.js";
 
 const enum FalkorCommanderErrorCodes {
-    MISSING_BUFFERED_TASK = "commander-buffered-error",
-    TASK_SELECTION_FAILURE = "commander-selection-error"
+    MISSING_BUFFERED_TASK = "commander-buffered-missing",
+    TASK_SELECTION_FAILURE = "commander-selection-failure"
 }
 
 export default class FalkorCommander extends PluginTaskRunner {
+    protected commanderPrefix: string;
     protected registry: string;
-    protected startTime: [number, number];
+    protected startTime: bigint;
     protected handlingPluginError: boolean = false;
 
     constructor(argv: minimist.ParsedArgs) {
@@ -41,7 +42,10 @@ export default class FalkorCommander extends PluginTaskRunner {
             .debug(`${this.theme.formatBullet("ARGV:")} ${JSON.stringify(this.initArgv)}`)
             .popPrompt();
 
-        this.startTime = process.hrtime();
+        this.commanderPrefix = `${this.prefix} ${this.theme.formatTask(this.appName)}`;
+        // we want to do one last elapsed time formatting after a final error / abort
+        this.times.push(process.hrtime.bigint());
+        this.finalTimeCount = 2;
         this.main()
             .then(() => this.exit(0))
             .catch(() => this.exit(1));
@@ -49,16 +53,10 @@ export default class FalkorCommander extends PluginTaskRunner {
 
     protected handleError(error: Error, soft: boolean = false): Error | FalkorError {
         if (!this.subtaskTitles.length) {
-            this.logger.fatal(`${this.errorPrompt} ${this.prefix} Commander failed`);
             this.logger
-                .debug(`${this.debugPrompt} ${error.stack ? error.stack : error.name + ": " + error.message}`)
-                .error(
-                    `${this.prefix} ${this.theme.formatTask(this.appName)} error ${this.theme.formatInfo(
-                        `(${error.message} ${this.theme.formatTrace(
-                            `in ${falkorUtil.prettyTime(process.hrtime(this.startTime))}`
-                        )})`
-                    )}`
-                );
+                .fatal(`${this.errorPrompt} ${this.commanderPrefix} failed`)
+                .error(`${this.errorPrompt} ${error.message}`)
+                .debug(`${this.debugPrompt} ${error.stack ? error.stack : error.name + ": " + error.message}`);
 
             if (soft) {
                 // received SIGINT, this is handled outside of the async main function
@@ -159,6 +157,17 @@ export default class FalkorCommander extends PluginTaskRunner {
     }
 
     protected exit(code: number): void {
+        if (code === 0) {
+            this.logger.info(
+                `${this.commanderPrefix} ${this.theme.formatSuccess("finished")} (code: 0 ${this.formatElapsedTime()})`
+            );
+        } else {
+            this.logger.info(
+                `${this.commanderPrefix} ${this.theme.formatError(
+                    "errored"
+                )} (code: ${code} ${this.formatElapsedTime()})`
+            );
+        }
         this.logger.debug(`${this.debugPrompt} exiting with code ${code}`);
         process.exit(code);
     }
