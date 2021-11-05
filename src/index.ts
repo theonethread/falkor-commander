@@ -1,3 +1,4 @@
+import process from "process";
 import minimist from "minimist";
 
 // NOTE: differentiate between positional arguments, and options passed after "--" POSIX separator

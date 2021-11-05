@@ -1,3 +1,4 @@
+import process from "process";
 import minimist from "minimist";
 import { util as falkorUtil, FalkorError } from "@falkor/falkor-library";
 import PluginTaskRunner from "../commander/PluginTaskRunner.js";
