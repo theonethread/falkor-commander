@@ -69,9 +69,7 @@ export default class PluginTaskRunner extends TaskRunner {
             } else {
                 //#endif
                 this.logger.notice(
-                    `testing forced plugin path '${this.theme.formatPath(
-                        this.forcedPluginPath
-                    )}' with required keyword '${this.theme.formatPath(this.keyword)}'`
+                    `testing forced plugin path with required keyword '${this.theme.formatPath(this.keyword)}'`
                 );
                 descriptorArr = this.testModule(this.forcedPluginPath);
                 //#ifnset _NO_PLUGIN_TEST
@@ -110,6 +108,7 @@ export default class PluginTaskRunner extends TaskRunner {
             try {
                 const pkg = JSON.parse(this.shell.cat(pkgPath));
                 if (
+                    pkg.module &&
                     pkg.keywords &&
                     Array.isArray(pkg.keywords) &&
                     pkg.keywords.some((k: string) => k === this.keyword)
