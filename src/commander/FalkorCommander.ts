@@ -4,7 +4,8 @@ import { util as falkorUtil, FalkorError } from "@falkor/falkor-library";
 import PluginTaskRunner from "../commander/PluginTaskRunner.js";
 
 const enum FalkorCommanderErrorCodes {
-    MISSING_BUFFERED_TASK = "commander-buffered-error"
+    MISSING_BUFFERED_TASK = "commander-buffered-error",
+    TASK_SELECTION_FAILURE = "commander-selection-error"
 }
 
 export default class FalkorCommander extends PluginTaskRunner {
@@ -42,14 +43,8 @@ export default class FalkorCommander extends PluginTaskRunner {
 
         this.startTime = process.hrtime();
         this.main()
-            .then(() => {
-                // console.log("exit 0");
-                process.exit(0);
-            })
-            .catch(() => {
-                // console.log("exit 1");
-                process.exit(1);
-            });
+            .then(() => this.exit(0))
+            .catch(() => this.exit(1));
     }
 
     protected handleError(error: Error, soft: boolean = false): Error | FalkorError {
@@ -67,9 +62,9 @@ export default class FalkorCommander extends PluginTaskRunner {
 
             if (soft) {
                 // received SIGINT, this is handled outside of the async main function
-                // console.log("exit 1");
-                process.exit(1);
+                this.exit(1);
             }
+
             throw error;
         }
 
@@ -79,10 +74,12 @@ export default class FalkorCommander extends PluginTaskRunner {
     protected async main(): Promise<void> {
         await super.main();
 
+        //#ifnset _NO_PLUGIN_TEST
         if (this.singlePluginMode) {
             this.logger.info(`${this.infoPrompt} starting single plugin mode`);
             return this.run(null, this.pluginArgv);
         }
+        //#endif
 
         if (this.taskBuffer) {
             const missingTasks = this.taskBuffer.filter((id) => !this.collection[id]);
@@ -139,25 +136,30 @@ export default class FalkorCommander extends PluginTaskRunner {
     }
 
     protected async selectLoop(selectableTasks: string[]): Promise<void> {
-        const selection = await this.select("Select task to run:", selectableTasks);
-        await this.run(selection, this.pluginArgv);
-        return this.selectLoop(selectableTasks);
-    }
-
-    protected async select(question: string, answers: string[]): Promise<string> {
-        const selection = (await this.terminal.ask(question, {
+        const selection = (await this.terminal.ask("Select task to run:", {
             // NOTE: exit is a restricted task ID, so safe to concat
-            answers: answers.concat("exit"),
+            answers: selectableTasks.concat("exit"),
             list: true
         })) as string;
         if (selection === null) {
             this.logger.error("failed selection");
-            process.exit(1);
+            throw new FalkorError(
+                FalkorCommanderErrorCodes.TASK_SELECTION_FAILURE,
+                "FalkorCommander: task selection failure"
+            );
         }
         if (selection === "exit") {
-            this.logger.info(`${this.infoPrompt} Goodbye!`).debug(`${this.debugPrompt} exiting`);
-            process.exit(0);
+            this.logger.info(`${this.infoPrompt} Goodbye!`);
+            return;
         }
-        return selection;
+
+        await this.run(selection, this.pluginArgv);
+
+        return this.selectLoop(selectableTasks);
+    }
+
+    protected exit(code: number): void {
+        this.logger.debug(`${this.debugPrompt} exiting with code ${code}`);
+        process.exit(code);
     }
 }

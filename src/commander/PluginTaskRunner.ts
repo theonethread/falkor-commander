@@ -15,10 +15,12 @@ export default class PluginTaskRunner extends TaskRunner {
     protected scope: string;
     protected keyword: string;
     protected forcedPluginPath: string;
-    protected singlePluginMode = false;
     protected taskBuffer: string[];
     protected initArgv: { [key: string]: any };
     protected pluginArgv: { [key: string]: minimist.ParsedArgs } = {};
+    //#ifnset _NO_PLUGIN_TEST
+    protected singlePluginMode = false;
+    //#endif
 
     public register(task: Task): void {
         if (this.taskBuffer && !this.taskBuffer.includes(task.id)) {
@@ -76,8 +78,8 @@ export default class PluginTaskRunner extends TaskRunner {
             }
             //#endif
         } else {
-            const pluginTestPkg = this.testPackage(this.cwd);
             //#ifnset _NO_PLUGIN_TEST
+            const pluginTestPkg = this.testPackage(this.cwd);
             if (pluginTestPkg) {
                 this.logger.info(`'cwd' is plugin, running in single-plugin mode`);
                 this.singlePluginMode = true;
