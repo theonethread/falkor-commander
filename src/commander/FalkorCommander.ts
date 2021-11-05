@@ -41,8 +41,14 @@ export default class FalkorCommander extends PluginTaskRunner {
 
         this.startTime = process.hrtime();
         this.main()
-            .then(() => process.exit(0))
-            .catch(() => process.exit(1));
+            .then(() => {
+                // console.log("exit 0");
+                process.exit(0);
+            })
+            .catch(() => {
+                // console.log("exit 1");
+                process.exit(1);
+            });
     }
 
     protected handleError(error: Error, soft: boolean = false): Error | FalkorError {
@@ -59,7 +65,9 @@ export default class FalkorCommander extends PluginTaskRunner {
                 );
 
             if (soft) {
-                return error;
+                // received SIGINT, we are outside of the async main function
+                // console.log("exit 1");
+                process.exit(1);
             }
             throw error;
         }
