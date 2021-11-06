@@ -88,6 +88,11 @@ $ npm run [ debug | release ]
 
 > _**SEE**: `"scripts"` entry in [`package.json`](https://github.com/theonethread/falkor-commander/blob/master/package.json "Open")_
 
+> _**NOTE**: Compiling the `develop` sources might need locally linked `develop` versions of downstream modules:_
+> * _[`@falkor/falkor-library`](https://github.com/theonethread/falkor-library/tree/develop "Visit")_
+> * _[`@falkor/falkor-bundler`](https://github.com/theonethread/falkor-bundler/tree/develop "Visit")_
+> _**SEE**: [`npm-link`](https://docs.npmjs.com/cli/v7/commands/npm-link "Visit")_
+
 ### **Man Page**
 
 By default the `falkor-commander` project ships with a pre-compiled man page when installed on Unix-like operating systems. The manual was created by converting the file [`man/man.md`](https://github.com/theonethread/falkor-commander/blob/master/man/man.md "Open").
