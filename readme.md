@@ -11,23 +11,27 @@
 [![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/theonethread/falkor-commander "Snyk")](https://snyk.io/test/github/theonethread/falkor-commander "Visit") &nbsp;
 [![License](https://img.shields.io/npm/l/@falkor/falkor-commander "MIT")](https://github.com/theonethread/falkor-bundler/blob/master/license.txt "Visit")
 
-```javascript
-// Work In Progress
-```
-
 The `falkor-commander` project is a standalone `npm` command-line application written in strict ES6 TypeScript. It is a plugin based task runner / -sequencer using the [`@falkor/falkor-library`](https://www.npmjs.com/package/@falkor/falkor-library "Visit") to make everyday devops tasks more approachable, friendly, and secure in the terminal for non-technical people.
+
+## **Installation**
+
+Install the package globally, so it's available in your `PATH`:
+
+```
+$ npm install --global @falkor/falkor-commander
+```
 
 ## **Usage**
 
-Since both the workflow and API are subjects to change, if you want to follow the development of the project there is an up-to-date testing repository at [`falkor-plugin-example`](https://github.com/theonethread/falkor-plugin-example "Visit") to demonstrate framework capabilities, which you can use to test features, or as a boilerplate for your own task / sequence for now.
+There is an up-to-date testing repository at [`falkor-plugin-example`](https://github.com/theonethread/falkor-plugin-example/tree/master "Visit") to demonstrate framework capabilities, which you can use to test features, or as a boilerplate for your own task sequence.
 
 ### **Command Line Interface**
 
 Usage:
 
 ```
-falkor-commander [(--scope <scope>)] [(--keyword <keyword>)] [<tasks>...] [(-- <answers>...)]
-falkor-commander [(--s <scope>)] [(--k <keyword>)] [<tasks>...] [(-- <answers>...)]
+falkor-commander [(--scope <scope>) | (--path <path>)] [(--keyword <keyword>)] [(--registry <registry>)] [<tasks>...] [(-- <answers>...)]
+falkor-commander [(-s <scope>) | (-p <path>)] [(-k <keyword>)] [(-r <registry>)] [<tasks>...] [(-- <answers>...)]
 falkor-commander (-v | --version | -h | --help)
 ```
 
@@ -36,13 +40,15 @@ Options:
 * `-v` or `--version`: Show version and exit
 * `-h` or `--help`: Show help and exit
 * `-s <scope>` or `--scope <scope>`: The scope to look for plugins under `node_modules` (default: `@falkor`)
+* `-p <path>` or `--path <path>`: Explicit directory to look for plugins in (overrides scope setting)
 * `-k <keyword>` or `--keyword <keyword>`: The keyword to look for in plugin candidates' `package.json` (default: `@falkor-plugin`)
+* `-r <registry>` or `--registry <registry>`: Registry to use when searching for plugins at fresh install (default: `https://registry.npmjs.org`)
 * `<tasks>...`: Treat all positional arguments as buffered task IDs
 * `-- <answers>...`: Treat all positional arguments after double dash as buffered input
 
 Task Specific Options:
 
-It is possible to forward command line arguments to individual tasks exposed by plugins. To compose such option, one has to use the task's escaped ID (spaces replaced with dashes, all lowercase) after double dash, se eg. `Example Task` becomes `--example-task`.
+It is possible to forward command line arguments to individual tasks exposed by plugins. To compose such option, one has to use the task's escaped ID (spaces replaced with dashes, all lowercase) after double dash, so eg. `Example Task` becomes `--example-task`.
 
 The value of such an option is similar to command line options, only using `#` instead of `-`, so building on the previous example eg.:
 
@@ -92,9 +98,9 @@ $ npm run man
 
 ### **Versioning and Branching Strategy**
 
-Release sources can be found on the `master` branch, this one always points to the latest tagged release. Previous sources of releases' can be found using Git version tags (or browsing GitHub releases). Released packages can be found on [npmjs](https://www.npmjs.com/package/@falkor/falkor-commander "Visit").
+Release sources can be found on the `master` branch, this one always points to the latest tagged release. Previous sources of releases can be found using Git version tags (or browsing GitHub releases). Released packages can be found on [npmjs](https://www.npmjs.com/package/@falkor/falkor-commander "Visit").
 
-The repository's main branch is `develop` (due to technical reasons), this holds all developments that are already decided to be included in the next release. Usually this branch is ahead of master one patch version (but based on upcoming features to include this can become minor, or major), so prepared external links may yet be broken.
+The repository's main branch is `develop` (due to technical reasons), this holds all developments that are already decided to be included in the next release. Usually this branch is ahead of `master` one patch version (but based on upcoming features to include this can become minor, or major), so prepared external links may yet be broken.
 
 The `feature/*` branches usually hold ideas and POC code, these will only be merged into `develop` once their impact measured and quality meets release requirements.
 
@@ -120,7 +126,7 @@ The latest sources can always be found on [GitHub](https://github.com/theonethre
 
 #### **Getting Involved**
 
-We believe - and we hope you do too - that learning how to code, how to think, and how to contribute to free- and open source software can empower the next generation of coders and creators. We **value** first time contributors just the same as rock stars of the OSS world, so if you're interested to get involved, just head over to our [Contribution Guidelines](https://github.com/theonethread/.github/blob/master/.github/contributing.md "Open") for a quick heads-up!
+We believe - and we hope you do too - that learning how to code, how to think, and how to contribute to free- and open source software can empower the next generation of coders and creators. We **value** first time contributors just the same as rock stars of the OSS world, so if you're interested in getting involved, just head over to our [Contribution Guidelines](https://github.com/theonethread/.github/blob/master/.github/contributing.md "Open") for a quick heads-up!
 
 #### **License**
 

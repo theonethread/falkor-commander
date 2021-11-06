@@ -1,6 +1,6 @@
 {
   "name": "@falkor/falkor-commander",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Falkor operations commander",
   "author": {
     "name": "Barnabas Bucsy",
@@ -60,11 +60,11 @@
     "npm": ">=6"
   },
   "scripts": {
-    "debug": "rimraf .dist/**/* && falkor-bundler --debug --input src/index.ts && falkor-bundler --debug --input src/cli/version.ts --out .dist/cli",
-    "release": "rimraf .dist/**/* && falkor-bundler --release --input src/index.ts && falkor-bundler --release --input src/cli/version.ts --out .dist/cli",
+    "debug": "rimraf .dist/**/* && falkor-bundler --debug --input src/index.ts",
+    "release": "rimraf .dist/**/* && falkor-bundler --release --input src/index.ts",
     "man": "pandoc --version && (mkdir .man || rimraf .man/**/*) && pandoc --standalone --to man ./man/man.md --output ./.man/falkor-commander.1",
     "prepublishOnly": "npm ci && npm run release && npm run man",
-    "start": "node .dist/index.js"
+    "start": "node --trace-warnings .dist/index.js"
   },
   "devDependencies": {
     "@types/node": "14.17.32",
@@ -73,12 +73,12 @@
     "@types/semver": "7.3.9",
     "@types/minimist": "1.2.2",
     "rimraf": "3.0.2",
-    "@falkor/falkor-bundler": "1.1.7"
+    "@falkor/falkor-bundler": "1.1.8"
   },
   "dependencies": {
     "minimist": "1.2.5",
     "shelljs": "0.8.4",
-    "@falkor/falkor-library": "1.0.0"
+    "@falkor/falkor-library": "1.1.0"
   },
   "optionalDependencies": {
     "@types/minimist": "1.2.2"

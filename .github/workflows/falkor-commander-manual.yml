@@ -35,14 +35,14 @@ jobs:
 
       - name: Bundle Custom Project
         run: |-
-          npx falkor-bundler ${{ github.event.inputs.cli }} --input src/index.ts
-          npx falkor-bundler ${{ github.event.inputs.cli }} --input src/cli/version.ts --out .dist/cli
+          npx --no-install falkor-bundler ${{ github.event.inputs.cli }} --input src/index.ts
+          npx --no-install falkor-bundler ${{ github.event.inputs.cli }} --input src/cli/version.ts --out .dist/cli
 
-      - name: Use Pandoc v2.14.2
+      - name: Use Pandoc v2.16.1
         if: ${{ matrix.os != 'windows-latest' }}
         uses: r-lib/actions/setup-pandoc@v1
         with:
-          pandoc-version: "2.14.2"
+          pandoc-version: "2.16.1"
 
       - name: Build Manual
         if: ${{ matrix.os != 'windows-latest' }}
