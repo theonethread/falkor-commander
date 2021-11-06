@@ -1,7 +1,7 @@
 import { posix as path } from "path";
 import { pathToFileURL } from "url";
 import minimist from "minimist";
-import { TaskRunner, Task, util as falkorUtil } from "@falkor/falkor-library";
+import { TaskRunner, Task, util } from "@falkor/falkor-library";
 
 type PluginDescriptor = {
     name: string;
@@ -42,7 +42,7 @@ export default class PluginTaskRunner extends TaskRunner {
                     argvStr = argvStr.substr(3);
                 }
                 this.pluginArgv[task.id] = minimist(
-                    falkorUtil.cliTokenize(argvStr.replace(new RegExp("\\" + replacer, "g"), "-")),
+                    util.cliTokenize(argvStr.replace(new RegExp("\\" + replacer, "g"), "-")),
                     { "--": true }
                 );
             }
@@ -77,19 +77,21 @@ export default class PluginTaskRunner extends TaskRunner {
             //#endif
         } else {
             //#ifnset _NO_PLUGIN_TEST
-            const pluginTestPkg = this.testPackage(this.cwd);
+            const pluginTestPkg = this.testPackage(util.cwd);
             if (pluginTestPkg) {
                 this.logger.info(`'cwd' is plugin, running in single-plugin mode`);
                 this.singlePluginMode = true;
                 descriptorArr = [pluginTestPkg];
             } else {
                 //#endif
-                this.logger.notice(
-                    `resolving scope '${this.theme.formatPath(
-                        this.scope
-                    )}' with required keyword '${this.theme.formatPath(this.keyword)}'`
-                );
-                descriptorArr = this.resolveModule(this.cwd);
+                this.logger
+                    .notice(`using plugin root '${this.theme.formatPath(util.root)}''`)
+                    .notice(
+                        `resolving scope '${this.theme.formatPath(
+                            this.scope
+                        )}' with required keyword '${this.theme.formatPath(this.keyword)}'`
+                    );
+                descriptorArr = this.resolveModule(util.root);
                 //#ifnset _NO_PLUGIN_TEST
             }
             //#endif
@@ -183,7 +185,7 @@ export default class PluginTaskRunner extends TaskRunner {
             }
             //#endif
             this.logger.debug(
-                `failed to process item of '${this.theme.formatError(falkorUtil.getClassChain(item).join(" < "))}'`
+                `failed to process item of '${this.theme.formatError(util.getClassChain(item).join(" < "))}'`
             );
         });
     }
