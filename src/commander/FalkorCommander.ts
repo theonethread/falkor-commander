@@ -1,6 +1,6 @@
 import process from "process";
 import minimist from "minimist";
-import { FalkorError } from "@falkor/falkor-library";
+import { FalkorError, FalkorExitCode } from "@falkor/falkor-library";
 import PluginTaskRunner from "../commander/PluginTaskRunner.js";
 
 const enum FalkorCommanderErrorCodes {
@@ -49,9 +49,10 @@ export default class FalkorCommander extends PluginTaskRunner {
         this.finalTimeCount = 2;
         this.main()
             .then(() => this.exit(0))
-            .catch(() => this.exit(1));
+            .catch((e) => this.exit(this.getErrorCode(e)));
     }
 
+    /** @throws Error | FalkorError */
     protected handleError(error: Error, soft: boolean = false): Error | FalkorError {
         if (!this.subtaskTitles.length) {
             this.logger
@@ -61,7 +62,7 @@ export default class FalkorCommander extends PluginTaskRunner {
 
             if (soft) {
                 // received SIGINT, this is handled outside of the async main function
-                this.exit(1);
+                this.exit(2);
             }
 
             throw error;
@@ -91,7 +92,9 @@ export default class FalkorCommander extends PluginTaskRunner {
                 this.handleError(
                     new FalkorError(
                         FalkorCommanderErrorCodes.MISSING_BUFFERED_TASK,
-                        "FalkorCommander: missing user buffered task(s)"
+                        "missing user buffered task(s)",
+                        FalkorExitCode.VALIDATION,
+                        "Commander"
                     )
                 );
             }
@@ -134,6 +137,7 @@ export default class FalkorCommander extends PluginTaskRunner {
         await this.run(null, this.pluginArgv);
     }
 
+    /** @throws FalkorError: FalkorCommanderErrorCodes.TASK_SELECTION_FAILURE */
     protected async selectLoop(selectableTasks: string[]): Promise<void> {
         const selection = (await this.terminal.ask("Select task to run:", {
             // NOTE: exit is a restricted task ID, so safe to concat
@@ -144,7 +148,9 @@ export default class FalkorCommander extends PluginTaskRunner {
             this.logger.error("failed selection");
             throw new FalkorError(
                 FalkorCommanderErrorCodes.TASK_SELECTION_FAILURE,
-                "FalkorCommander: task selection failure"
+                "task selection failure",
+                FalkorExitCode.GENERAL,
+                "Commander"
             );
         }
         if (selection === "exit") {
@@ -171,5 +177,13 @@ export default class FalkorCommander extends PluginTaskRunner {
         }
         this.logger.debug(`${this.debugPrompt} exiting with code ${code}`);
         process.exit(code);
+    }
+
+    protected getErrorCode(e: Error): number {
+        let ret = 1;
+        if (e instanceof FalkorError) {
+            ret = e.exitCode;
+        }
+        return ret;
     }
 }
