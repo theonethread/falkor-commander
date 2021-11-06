@@ -80,7 +80,7 @@ If for some reason the `#` character is reserved in your workflow, it can be sub
 The project uses the [`@falkor/falkor-bundler`](https://www.npmjs.com/package/@falkor/falkor-bundler "Visit") module to compile sources. To clone the repository and compile `falkor-commander` one can use the commands:
 
 ```
-$ git clone git@github.com:theonethread/falkor-commander.git
+$ git clone --branch develop git@github.com:theonethread/falkor-commander.git
 $ cd falkor-commander
 $ npm install
 $ npm run [ debug | release ]
