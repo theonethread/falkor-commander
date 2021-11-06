@@ -1,6 +1,6 @@
 {
   "name": "@falkor/falkor-commander",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Falkor operations commander",
   "author": {
     "name": "Barnabas Bucsy",
@@ -60,11 +60,11 @@
     "npm": ">=6"
   },
   "scripts": {
-    "debug": "rimraf .dist/**/* && falkor-bundler --debug --input src/index.ts && falkor-bundler --debug --input src/cli/version.ts --out .dist/cli",
-    "release": "rimraf .dist/**/* && falkor-bundler --release --input src/index.ts && falkor-bundler --release --input src/cli/version.ts --out .dist/cli",
+    "debug": "rimraf .dist/**/* && falkor-bundler --debug --input src/index.ts",
+    "release": "rimraf .dist/**/* && falkor-bundler --release --input src/index.ts",
     "man": "pandoc --version && (mkdir .man || rimraf .man/**/*) && pandoc --standalone --to man ./man/man.md --output ./.man/falkor-commander.1",
     "prepublishOnly": "npm ci && npm run release && npm run man",
-    "start": "node .dist/index.js"
+    "start": "node --trace-warnings .dist/index.js"
   },
   "devDependencies": {
     "@types/node": "14.17.32",
