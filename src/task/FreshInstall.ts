@@ -92,7 +92,7 @@ class FreshInstall extends Task {
             this.subtask(`installing plugin '${this.theme.formatPath(plugin)}'`);
             const installResult = await this.exec(`npm install ${plugin} --global`);
             if (!installResult.success) {
-                this.error("failed npm search");
+                return this.error("failed npm search");
             }
             this.success("installed");
         }
