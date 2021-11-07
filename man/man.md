@@ -1,6 +1,4 @@
-% FALKOR-COMMANDER(1) The Falkor Framework **1.0.0** | **Falkor** General Commands Manual
-% Barnabas Bucsy
-% October 2021
+% FALKOR-COMMANDER(1) The Falkor Framework **1.0.0** | **Falkor** General Commands Manual % Barnabas Bucsy % October 2021
 
 # NAME
 
@@ -20,29 +18,29 @@ The **falkor-commander** project is a standalone npm command-line application wr
 
 # OPTIONS
 
-`-v`, `--version`
-:   Show version and exit
+`-v`, `--version`  
+: Show version and exit
 
-`-h`, `--help`
-:   Show help and exit
+`-h`, `--help`  
+: Show help and exit
 
-`-s <scope>`, `--scope <scope>`
-:   The scope to look for plugins under **node_modules** (default: **@falkor**)
+`-s <scope>`, `--scope <scope>`  
+: The scope to look for plugins under **node_modules** (default: **@falkor**)
 
-`-p <path>`, `--path <path>`
-:   Explicit directory to look for plugins in (overrides scope setting)
+`-p <path>`, `--path <path>`  
+: Explicit directory to look for plugins in (overrides scope setting)
 
-`-k <keyword>`, `--keyword <keyword>`
-:   The keyword to look for in plugin candidates' **package.json** (default: **@falkor-plugin**)
+`-k <keyword>`, `--keyword <keyword>`  
+: The keyword to look for in plugin candidates' **package.json** (default: **@falkor-plugin**)
 
-`-r <registry>`, `--registry <registry>`
-:   Registry to use when searching for plugins at fresh install (default: **https://registry.npmjs.org**)
+`-r <registry>`, `--registry <registry>`  
+: Registry to use when searching for plugins at fresh install (default: **https://registry.npmjs.org**)
 
-`<tasks>...`
-:   Treat all positional arguments as buffered task IDs
+`<tasks>...`  
+: Treat all positional arguments as buffered task IDs
 
-`-- <answers>...`
-:   Treat all positional arguments after double dash as buffered input
+`-- <answers>...`  
+: Treat all positional arguments after double dash as buffered input
 
 # TASK SPECIFIC OPTIONS
 

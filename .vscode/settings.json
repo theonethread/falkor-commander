@@ -1,3 +1,16 @@
 {
-  "cSpell.words": ["Bucsy", "falkor", "pandoc", "theonethread", "npmjs", "deduped", "snyk", "codeql", "ifnset"]
+  "cSpell.words": [
+    "Bucsy",
+    "falkor",
+    "pandoc",
+    "theonethread",
+    "npmjs",
+    "deduped",
+    "snyk",
+    "codeql",
+    "ifnset",
+    "prettierrc",
+    "loglevel",
+    "parens"
+  ]
 }

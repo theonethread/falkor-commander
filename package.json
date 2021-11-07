@@ -62,8 +62,9 @@
   "scripts": {
     "debug": "rimraf .dist/**/* && falkor-bundler --debug --input src/index.ts",
     "release": "rimraf .dist/**/* && falkor-bundler --release --input src/index.ts",
+    "lint": "prettier --check .",
     "man": "pandoc --version && (mkdir .man || rimraf .man/**/*) && pandoc --standalone --to man ./man/man.md --output ./.man/falkor-commander.1",
-    "prepublishOnly": "npm ci && npm run release && npm run man",
+    "prepublishOnly": "npm ci && npm run lint && npm run release && npm run man",
     "start": "node --trace-warnings .dist/index.js"
   },
   "devDependencies": {
@@ -73,6 +74,7 @@
     "@types/semver": "7.3.9",
     "@types/minimist": "1.2.2",
     "rimraf": "3.0.2",
+    "prettier": "2.4.1",
     "@falkor/falkor-bundler": "1.1.8"
   },
   "dependencies": {

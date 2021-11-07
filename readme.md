@@ -1,15 +1,6 @@
 # **Falkor Operations Commander**
 
-[![Npm Keywords](https://img.shields.io/github/package-json/keywords/theonethread/falkor-commander "Keywords")](https://www.npmjs.com/package/@falkor/falkor-commander "Visit") &nbsp;
-[![Npm Package](https://img.shields.io/npm/v/@falkor/falkor-commander "Npm")](https://www.npmjs.com/package/@falkor/falkor-commander "Visit") &nbsp;
-[![Node Version](https://img.shields.io/node/v/@falkor/falkor-commander "Node")](https://nodejs.org/ "Visit") &nbsp;
-[![Build](https://img.shields.io/github/workflow/status/theonethread/falkor-commander/Falkor%20CI%20-%20Release "Build")](https://github.com/theonethread/falkor-bundler/actions "Visit") &nbsp;
-[![Security](https://img.shields.io/github/workflow/status/theonethread/falkor-commander/Falkor%20CI%20-%20Security?label=security "Security")](https://github.com/theonethread/falkor-commander/actions "Visit") &nbsp;
-[![Activity](https://img.shields.io/github/last-commit/theonethread/falkor-commander "Activity")](https://github.com/theonethread/falkor-bundler "Visit") &nbsp;
-[![Falkor Bundler](https://img.shields.io/npm/dependency-version/@falkor/falkor-commander/dev/@falkor/falkor-bundler "Falkor Bundler")](https://www.npmjs.com/package/@falkor/falkor-bundler "Visit") &nbsp;
-[![Falkor Library](https://img.shields.io/npm/dependency-version/@falkor/falkor-commander/@falkor/falkor-library "Falkor Library")](https://www.npmjs.com/package/@falkor/falkor-library "Visit") &nbsp;
-[![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/theonethread/falkor-commander "Snyk")](https://snyk.io/test/github/theonethread/falkor-commander "Visit") &nbsp;
-[![License](https://img.shields.io/npm/l/@falkor/falkor-commander "MIT")](https://github.com/theonethread/falkor-bundler/blob/master/license.txt "Visit")
+[![Npm Keywords](https://img.shields.io/github/package-json/keywords/theonethread/falkor-commander "Keywords")](https://www.npmjs.com/package/@falkor/falkor-commander "Visit") &nbsp; [![Npm Package](https://img.shields.io/npm/v/@falkor/falkor-commander "Npm")](https://www.npmjs.com/package/@falkor/falkor-commander "Visit") &nbsp; [![Node Version](https://img.shields.io/node/v/@falkor/falkor-commander "Node")](https://nodejs.org/ "Visit") &nbsp; [![Build](https://img.shields.io/github/workflow/status/theonethread/falkor-commander/Falkor%20CI%20-%20Release "Build")](https://github.com/theonethread/falkor-bundler/actions "Visit") &nbsp; [![Security](https://img.shields.io/github/workflow/status/theonethread/falkor-commander/Falkor%20CI%20-%20Security?label=security "Security")](https://github.com/theonethread/falkor-commander/actions "Visit") &nbsp; [![Activity](https://img.shields.io/github/last-commit/theonethread/falkor-commander "Activity")](https://github.com/theonethread/falkor-bundler "Visit") &nbsp; [![Falkor Bundler](https://img.shields.io/npm/dependency-version/@falkor/falkor-commander/dev/@falkor/falkor-bundler "Falkor Bundler")](https://www.npmjs.com/package/@falkor/falkor-bundler "Visit") &nbsp; [![Falkor Library](https://img.shields.io/npm/dependency-version/@falkor/falkor-commander/@falkor/falkor-library "Falkor Library")](https://www.npmjs.com/package/@falkor/falkor-library "Visit") &nbsp; [![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/theonethread/falkor-commander "Snyk")](https://snyk.io/test/github/theonethread/falkor-commander "Visit") &nbsp; [![License](https://img.shields.io/npm/l/@falkor/falkor-commander "MIT")](https://github.com/theonethread/falkor-bundler/blob/master/license.txt "Visit")
 
 The `falkor-commander` project is a standalone `npm` command-line application written in strict ES6 TypeScript. It is a plugin based task runner / -sequencer using the [`@falkor/falkor-library`](https://www.npmjs.com/package/@falkor/falkor-library "Visit") to make everyday devops tasks more approachable, friendly, and secure in the terminal for non-technical people.
 
@@ -37,14 +28,14 @@ falkor-commander (-v | --version | -h | --help)
 
 Options:
 
-* `-v` or `--version`: Show version and exit
-* `-h` or `--help`: Show help and exit
-* `-s <scope>` or `--scope <scope>`: The scope to look for plugins under `node_modules` (default: `@falkor`)
-* `-p <path>` or `--path <path>`: Explicit directory to look for plugins in (overrides scope setting)
-* `-k <keyword>` or `--keyword <keyword>`: The keyword to look for in plugin candidates' `package.json` (default: `@falkor-plugin`)
-* `-r <registry>` or `--registry <registry>`: Registry to use when searching for plugins at fresh install (default: `https://registry.npmjs.org`)
-* `<tasks>...`: Treat all positional arguments as buffered task IDs
-* `-- <answers>...`: Treat all positional arguments after double dash as buffered input
+- `-v` or `--version`: Show version and exit
+- `-h` or `--help`: Show help and exit
+- `-s <scope>` or `--scope <scope>`: The scope to look for plugins under `node_modules` (default: `@falkor`)
+- `-p <path>` or `--path <path>`: Explicit directory to look for plugins in (overrides scope setting)
+- `-k <keyword>` or `--keyword <keyword>`: The keyword to look for in plugin candidates' `package.json` (default: `@falkor-plugin`)
+- `-r <registry>` or `--registry <registry>`: Registry to use when searching for plugins at fresh install (default: `https://registry.npmjs.org`)
+- `<tasks>...`: Treat all positional arguments as buffered task IDs
+- `-- <answers>...`: Treat all positional arguments after double dash as buffered input
 
 Task Specific Options:
 
@@ -86,14 +77,14 @@ $ npm install
 $ npm run [ debug | release ]
 ```
 
-> _**SEE:** `"scripts"` entry in [`package.json`](https://github.com/theonethread/falkor-commander/blob/master/package.json "Open")_
+> _**SEE:** `"scripts"` entry in [`package.json`](https://github.com/theonethread/falkor-commander/blob/master/package.json "Open") for further reference._
 
 > _**NOTE:** Compiling the `develop` sources might need locally linked `develop` versions of downstream modules:_
-> 
-> * _[`@falkor/falkor-library`](https://github.com/theonethread/falkor-library/tree/develop "Visit")_
-> * _[`@falkor/falkor-bundler`](https://github.com/theonethread/falkor-bundler/tree/develop "Visit")_
-> 
-> _**SEE:** [`npm-link`](https://docs.npmjs.com/cli/v7/commands/npm-link "Visit")_
+>
+> - _[`@falkor/falkor-library`](https://github.com/theonethread/falkor-library/tree/develop "Visit")_
+> - _[`@falkor/falkor-bundler`](https://github.com/theonethread/falkor-bundler/tree/develop "Visit")_
+>
+> _**SEE:** [`npm-link`](https://docs.npmjs.com/cli/v7/commands/npm-link "Visit") for further reference._
 
 ### **Man Page**
 
