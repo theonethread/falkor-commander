@@ -104,9 +104,7 @@ The project uses [`prettier`](https://www.npmjs.com/package/prettier "Visit") fo
 $ npm run lint
 ```
 
-> _**SEE:** [`.prettierrc`](https://github.com/theonethread/falkor-library/blob/develop/.prettierrc "Open") and [`.cspell.json`](https://github.com/theonethread/falkor-library/blob/develop/.cspell.json "Open") for further reference._
-
-> _**SEE:** [`.prettierrc`](https://github.com/theonethread/falkor-commander/blob/develop/.prettierrc "Open") for further reference._
+> _**SEE:** [`.prettierrc`](https://github.com/theonethread/falkor-commander/blob/develop/.prettierrc "Open") and [`.cspell.json`](https://github.com/theonethread/falkor-commander/blob/develop/.cspell.json "Open") for further reference._
 
 ### **Versioning and Branching Strategy**
 
