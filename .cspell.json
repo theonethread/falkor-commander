@@ -1,16 +1,19 @@
 {
-  "cSpell.words": [
-    "Bucsy",
+  "version": "0.2",
+  "language": "en",
+  "words": [
     "falkor",
+    "Bucsy",
     "pandoc",
     "theonethread",
     "npmjs",
     "deduped",
-    "snyk",
     "codeql",
+    "snyk",
     "ifnset",
     "prettierrc",
     "loglevel",
-    "parens"
+    "parens",
+    "falkorrc"
   ]
 }
