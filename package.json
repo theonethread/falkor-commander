@@ -81,7 +81,7 @@
   "dependencies": {
     "minimist": "1.2.5",
     "shelljs": "0.8.4",
-    "@falkor/falkor-library": "1.1.0"
+    "@falkor/falkor-library": "1.1.1"
   },
   "optionalDependencies": {
     "@types/minimist": "1.2.2"
