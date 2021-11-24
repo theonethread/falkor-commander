@@ -64,7 +64,7 @@
     "release": "rimraf .dist/**/* && falkor-bundler --release --input src/index.ts",
     "lint": "prettier --check . && cspell lint --no-progress --wordsOnly --unique --gitignore --exclude .git ** .*",
     "man": "pandoc --version && (mkdir .man || rimraf .man/**/*) && pandoc --standalone --to man ./man/man.md --output ./.man/falkor-commander.1",
-    "prepublishOnly": "npm ci && npm run lint && npm run release && npm run man",
+    "prepublishOnly": "npm ci --ignore-scripts && npm run lint && npm run release && npm run man",
     "start": "node --trace-warnings .dist/index.js"
   },
   "devDependencies": {
@@ -76,7 +76,7 @@
     "rimraf": "3.0.2",
     "prettier": "2.4.1",
     "cspell": "5.13.0",
-    "@falkor/falkor-bundler": "1.1.8"
+    "@falkor/falkor-bundler": "1.1.11"
   },
   "dependencies": {
     "minimist": "1.2.5",
