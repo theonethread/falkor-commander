@@ -175,7 +175,6 @@ export default class FalkorCommander extends PluginTaskRunner {
                 )} (code: ${code} ${this.formatElapsedTime()})`
             );
         }
-        this.logger.debug(`${this.debugPrompt} exiting with code ${code}`);
         process.exit(code);
     }
 

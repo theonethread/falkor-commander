@@ -1,15 +1,6 @@
 # **Falkor Operations Commander**
 
-[![Npm Keywords](https://img.shields.io/github/package-json/keywords/theonethread/falkor-commander "Keywords")](https://www.npmjs.com/package/@falkor/falkor-commander "Visit") &nbsp;
-[![Npm Package](https://img.shields.io/npm/v/@falkor/falkor-commander "Npm")](https://www.npmjs.com/package/@falkor/falkor-commander "Visit") &nbsp;
-[![Node Version](https://img.shields.io/node/v/@falkor/falkor-commander "Node")](https://nodejs.org/ "Visit") &nbsp;
-[![Build](https://img.shields.io/github/workflow/status/theonethread/falkor-commander/Falkor%20CI%20-%20Release "Build")](https://github.com/theonethread/falkor-bundler/actions "Visit") &nbsp;
-[![Security](https://img.shields.io/github/workflow/status/theonethread/falkor-commander/Falkor%20CI%20-%20Security?label=security "Security")](https://github.com/theonethread/falkor-commander/actions "Visit") &nbsp;
-[![Activity](https://img.shields.io/github/last-commit/theonethread/falkor-commander "Activity")](https://github.com/theonethread/falkor-bundler "Visit") &nbsp;
-[![Falkor Bundler](https://img.shields.io/npm/dependency-version/@falkor/falkor-commander/dev/@falkor/falkor-bundler "Falkor Bundler")](https://www.npmjs.com/package/@falkor/falkor-bundler "Visit") &nbsp;
-[![Falkor Library](https://img.shields.io/npm/dependency-version/@falkor/falkor-commander/@falkor/falkor-library "Falkor Library")](https://www.npmjs.com/package/@falkor/falkor-library "Visit") &nbsp;
-[![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/theonethread/falkor-commander "Snyk")](https://snyk.io/test/github/theonethread/falkor-commander "Visit") &nbsp;
-[![License](https://img.shields.io/npm/l/@falkor/falkor-commander "MIT")](https://github.com/theonethread/falkor-bundler/blob/master/license.txt "Visit")
+[![Npm Keywords](https://img.shields.io/github/package-json/keywords/theonethread/falkor-commander "Keywords")](https://www.npmjs.com/package/@falkor/falkor-commander "Visit") &nbsp; [![Npm Package](https://img.shields.io/npm/v/@falkor/falkor-commander "Npm")](https://www.npmjs.com/package/@falkor/falkor-commander "Visit") &nbsp; [![Node Version](https://img.shields.io/node/v/@falkor/falkor-commander "Node")](https://nodejs.org/ "Visit") &nbsp; [![Build](https://img.shields.io/github/workflow/status/theonethread/falkor-commander/Falkor%20CI%20-%20Release "Build")](https://github.com/theonethread/falkor-bundler/actions "Visit") &nbsp; [![Security](https://img.shields.io/github/workflow/status/theonethread/falkor-commander/Falkor%20CI%20-%20Security?label=security "Security")](https://github.com/theonethread/falkor-commander/actions "Visit") &nbsp; [![Activity](https://img.shields.io/github/last-commit/theonethread/falkor-commander "Activity")](https://github.com/theonethread/falkor-bundler "Visit") &nbsp; [![Falkor Bundler](https://img.shields.io/npm/dependency-version/@falkor/falkor-commander/dev/@falkor/falkor-bundler "Falkor Bundler")](https://www.npmjs.com/package/@falkor/falkor-bundler "Visit") &nbsp; [![Falkor Library](https://img.shields.io/npm/dependency-version/@falkor/falkor-commander/@falkor/falkor-library "Falkor Library")](https://www.npmjs.com/package/@falkor/falkor-library "Visit") &nbsp; [![Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/theonethread/falkor-commander "Snyk")](https://snyk.io/test/github/theonethread/falkor-commander "Visit") &nbsp; [![License](https://img.shields.io/npm/l/@falkor/falkor-commander "MIT")](https://github.com/theonethread/falkor-bundler/blob/master/license.txt "Visit")
 
 The `falkor-commander` project is a standalone `npm` command-line application written in strict ES6 TypeScript. It is a plugin based task runner / -sequencer using the [`@falkor/falkor-library`](https://www.npmjs.com/package/@falkor/falkor-library "Visit") to make everyday devops tasks more approachable, friendly, and secure in the terminal for non-technical people.
 
@@ -37,14 +28,14 @@ falkor-commander (-v | --version | -h | --help)
 
 Options:
 
-* `-v` or `--version`: Show version and exit
-* `-h` or `--help`: Show help and exit
-* `-s <scope>` or `--scope <scope>`: The scope to look for plugins under `node_modules` (default: `@falkor`)
-* `-p <path>` or `--path <path>`: Explicit directory to look for plugins in (overrides scope setting)
-* `-k <keyword>` or `--keyword <keyword>`: The keyword to look for in plugin candidates' `package.json` (default: `@falkor-plugin`)
-* `-r <registry>` or `--registry <registry>`: Registry to use when searching for plugins at fresh install (default: `https://registry.npmjs.org`)
-* `<tasks>...`: Treat all positional arguments as buffered task IDs
-* `-- <answers>...`: Treat all positional arguments after double dash as buffered input
+- `-v` or `--version`: Show version and exit
+- `-h` or `--help`: Show help and exit
+- `-s <scope>` or `--scope <scope>`: The scope to look for plugins under `node_modules` (default: `@falkor`)
+- `-p <path>` or `--path <path>`: Explicit directory to look for plugins in (overrides scope setting)
+- `-k <keyword>` or `--keyword <keyword>`: The keyword to look for in plugin candidates' `package.json` (default: `@falkor-plugin`)
+- `-r <registry>` or `--registry <registry>`: Registry to use when searching for plugins at fresh install (default: `https://registry.npmjs.org`)
+- `<tasks>...`: Treat all positional arguments as buffered task IDs
+- `-- <answers>...`: Treat all positional arguments after double dash as buffered input
 
 Task Specific Options:
 
@@ -77,14 +68,23 @@ If for some reason the `#` character is reserved in your workflow, it can be sub
 
 ## **Further Development**
 
-The project uses the [`@falkor/falkor-bundler`](https://www.npmjs.com/package/@falkor/falkor-bundler "Visit") module to compile sources. One can use the commands in the root directory after cloning the repository:
+The project uses the [`@falkor/falkor-bundler`](https://www.npmjs.com/package/@falkor/falkor-bundler "Visit") module to compile sources. To clone the repository and compile `falkor-commander` one can use the commands:
 
 ```
+$ git clone --branch develop git@github.com:theonethread/falkor-commander.git
+$ cd falkor-commander
 $ npm install
 $ npm run [ debug | release ]
 ```
 
-> _**SEE**: `"scripts"` entry in [`package.json`](https://github.com/theonethread/falkor-commander/blob/master/package.json "Open")_
+> _**SEE:** `"scripts"` entry in [`package.json`](https://github.com/theonethread/falkor-commander/blob/master/package.json "Open") for further reference._
+
+> _**NOTE:** Compiling the `develop` sources might need locally linked `develop` versions of downstream modules:_
+>
+> - _[`@falkor/falkor-library`](https://github.com/theonethread/falkor-library/tree/develop "Visit")_
+> - _[`@falkor/falkor-bundler`](https://github.com/theonethread/falkor-bundler/tree/develop "Visit")_
+>
+> _**SEE:** [`npm-link`](https://docs.npmjs.com/cli/v7/commands/npm-link "Visit") for further reference._
 
 ### **Man Page**
 
@@ -96,15 +96,28 @@ To recompile the manual, make sure that [`Pandoc`](https://pandoc.org/ "Visit") 
 $ npm run man
 ```
 
+### **Linting**
+
+The project uses [`prettier`](https://www.npmjs.com/package/prettier "Visit") for code formatting and [`cspell`](https://www.npmjs.com/package/cspell "Visit") to avoid general typos in both sources and documentation - it is advised to install these packages as extensions in your IDE to prevent CI errors beforehand. To lint the project run:
+
+```
+$ npm run lint
+```
+
+> _**SEE:** [`.prettierrc`](https://github.com/theonethread/falkor-commander/blob/develop/.prettierrc "Open") and [`.cspell.json`](https://github.com/theonethread/falkor-commander/blob/develop/.cspell.json "Open") for further reference._
+
+- To fix formatting issues run `$ npx prettier --write <path-to-file>`. This will overwrite the file with the default formatting applied locally, so then you can review the changes in `git` and **ensure those did not affect production artifacts**.
+- To fix spelling errors run `$ npx cspell lint --wordsOnly --unique --gitignore --exclude .git ** .*` for details, and either make the fixes in the sources listed, add `cspell` favored comments, or extend the project-wide `.cspell.json` accordingly.
+
 ### **Versioning and Branching Strategy**
 
-Release sources can be found on the `master` branch, this one always points to the latest tagged release. Previous sources of releases can be found using Git version tags (or browsing GitHub releases). Released packages can be found on [npmjs](https://www.npmjs.com/package/@falkor/falkor-commander "Visit").
+Release sources can be found on the `master` branch, this one always points to the latest tagged release. Previous sources of releases can be found using `git` version tags (or browsing GitHub releases). Released packages can be found on [npmjs](https://www.npmjs.com/package/@falkor/falkor-commander "Visit").
 
 The repository's main branch is `develop` (due to technical reasons), this holds all developments that are already decided to be included in the next release. Usually this branch is ahead of `master` one patch version (but based on upcoming features to include this can become minor, or major), so prepared external links may yet be broken.
 
 The `feature/*` branches usually hold ideas and POC code, these will only be merged into `develop` once their impact measured and quality meets release requirements.
 
-> _The project uses [SemVer](https://semver.org "Visit"), Git tags are prefixed with a `v` character._
+> _The project uses [SemVer](https://semver.org "Visit"), `git` tags are prefixed with a `v` character._
 
 ### **GitHub Actions**
 
