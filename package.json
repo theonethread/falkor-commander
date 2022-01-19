@@ -68,20 +68,20 @@
     "start": "node --trace-warnings .dist/index.js"
   },
   "devDependencies": {
-    "@types/node": "14.17.34",
-    "@types/shelljs": "0.8.9",
+    "@types/node": "14.18.3",
+    "@types/shelljs": "0.8.11",
     "@types/figlet": "1.5.4",
     "@types/semver": "7.3.9",
     "@types/minimist": "1.2.2",
     "rimraf": "3.0.2",
-    "prettier": "2.4.1",
-    "cspell": "5.13.0",
-    "@falkor/falkor-bundler": "1.1.11"
+    "prettier": "2.5.1",
+    "cspell": "5.15.2",
+    "@falkor/falkor-bundler": "1.1.12"
   },
   "dependencies": {
     "minimist": "1.2.5",
-    "shelljs": "0.8.4",
-    "@falkor/falkor-library": "1.1.1"
+    "shelljs": "0.8.5",
+    "@falkor/falkor-library": "1.1.2"
   },
   "optionalDependencies": {
     "@types/minimist": "1.2.2"
