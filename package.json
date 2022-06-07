@@ -76,12 +76,12 @@
     "rimraf": "3.0.2",
     "prettier": "2.6.2",
     "cspell": "6.1.1",
-    "@falkor/falkor-bundler": "1.1.14"
+    "@falkor/falkor-bundler": "1.2.0"
   },
   "dependencies": {
     "minimist": "1.2.6",
     "shelljs": "0.8.5",
-    "@falkor/falkor-library": "1.1.3"
+    "@falkor/falkor-library": "1.2.0"
   },
   "optionalDependencies": {
     "@types/minimist": "1.2.2"
