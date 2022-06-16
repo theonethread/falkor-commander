@@ -1,6 +1,6 @@
 {
   "name": "@falkor/falkor-commander",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Falkor operations commander",
   "author": {
     "name": "Barnabas Bucsy",
@@ -68,20 +68,20 @@
     "start": "node --trace-warnings .dist/index.js"
   },
   "devDependencies": {
-    "@types/node": "17.0.40",
+    "@types/node": "18.0.0",
     "@types/shelljs": "0.8.11",
     "@types/figlet": "1.5.4",
-    "@types/semver": "7.3.9",
+    "@types/semver": "7.3.10",
     "@types/minimist": "1.2.2",
     "rimraf": "3.0.2",
-    "prettier": "2.6.2",
-    "cspell": "6.1.1",
-    "@falkor/falkor-bundler": "1.2.0"
+    "prettier": "2.7.1",
+    "cspell": "6.1.2",
+    "@falkor/falkor-bundler": "1.2.1"
   },
   "dependencies": {
     "minimist": "1.2.6",
     "shelljs": "0.8.5",
-    "@falkor/falkor-library": "1.2.0"
+    "@falkor/falkor-library": "1.3.0"
   },
   "optionalDependencies": {
     "@types/minimist": "1.2.2"

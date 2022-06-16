@@ -48,13 +48,13 @@ class FreshInstall extends Task {
                 this.scope
             )}' and keyword '${this.theme.formatPath(this.keyword)}'`
         );
-        const searchResult = await this.exec(`npm search --json --registry "${this.registry}" "/^${this.scope}/"`);
-        if (!searchResult.success) {
+        const searchReturn = await this.exec(`npm search --json --registry "${this.registry}" "${this.scope}"`);
+        if (!searchReturn.success) {
             this.error("failed npm search");
         }
 
-        const candidates = (JSON.parse(searchResult.output) as TNpmJsonResponseItem[]).filter((p) =>
-            p.keywords.includes(this.keyword)
+        const candidates = (JSON.parse(searchReturn.result.out) as TNpmJsonResponseItem[]).filter((p) =>
+            p.keywords?.includes(this.keyword)
         );
         if (candidates.length) {
             return this.offerInstall(candidates);
@@ -90,8 +90,8 @@ class FreshInstall extends Task {
 
         for (const plugin of installAnswer) {
             this.subtask(`installing plugin '${this.theme.formatPath(plugin)}'`);
-            const installResult = await this.exec(`npm install ${plugin} --global`);
-            if (!installResult.success) {
+            const installReturn = await this.exec(`npm install ${plugin} --global`);
+            if (!installReturn.success) {
                 return this.error("failed npm search");
             }
             this.success("installed");
