@@ -35,7 +35,7 @@ class FreshInstall extends Task {
     protected keyword: string;
 
     constructor() {
-        super("Fresh Install" /*, { npm: "6", node: "14" }*/);
+        super("Fresh Install" /*, { npm: "8", node: "16" }*/);
     }
 
     public async run(argv?: { [key: string]: any }, config?: any): Promise<void> {
