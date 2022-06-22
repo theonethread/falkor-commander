@@ -71,7 +71,7 @@ class FreshInstall extends Task {
             descriptions.push(p.version);
         });
         const installAnswer = (await this.ask(
-            `Would you like to install any of the found plugins? ${this.theme.formatTrace("(press enter to exit)")}`,
+            `Would you like to install any of the found plugins? ${this.theme.formatTrace("(select none to exit)")}`,
             {
                 answers,
                 descriptions,
@@ -92,7 +92,7 @@ class FreshInstall extends Task {
             this.subtask(`installing plugin '${this.theme.formatPath(plugin)}'`);
             const installReturn = await this.exec(`npm install ${plugin} --global`);
             if (!installReturn.success) {
-                return this.error("failed npm search");
+                return this.error("failed npm install");
             }
             this.success("installed");
         }
