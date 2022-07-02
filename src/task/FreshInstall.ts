@@ -58,9 +58,9 @@ class FreshInstall extends Task {
         );
         if (candidates.length) {
             return this.offerInstall(candidates);
-        } else {
-            this.logger.info(this.theme.formatWarning("no plugin candidates found, exiting"));
         }
+
+        this.logger.info(this.theme.formatWarning("no plugin candidates found, exiting"));
     }
 
     public async offerInstall(candidates: TNpmJsonResponseItem[]): Promise<void> {
