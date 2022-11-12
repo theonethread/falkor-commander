@@ -76,7 +76,7 @@
     "@types/minimist": "1.2.2",
     "rimraf": "3.0.2",
     "prettier": "2.7.1",
-    "cspell": "6.14.0",
+    "cspell": "6.14.2",
     "@falkor/falkor-bundler": "1.2.3"
   },
   "dependencies": {
