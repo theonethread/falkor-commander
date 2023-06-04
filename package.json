@@ -75,8 +75,8 @@
     "@types/semver": "7.5.0",
     "@types/minimist": "1.2.2",
     "rimraf": "5.0.1",
-    "prettier": "2.8.8",
-    "cspell": "6.31.1",
+    "@falkor/falkor-cspell-config": "0.0.1",
+    "@falkor/falkor-prettier-config": "0.0.1",
     "@falkor/falkor-bundler": "1.2.3"
   },
   "dependencies": {
