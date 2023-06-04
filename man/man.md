@@ -1,4 +1,4 @@
-% FALKOR-COMMANDER(1) The Falkor Framework **1.0.0** | **Falkor** General Commands Manual % Barnabas Bucsy % June 2022
+% FALKOR-COMMANDER(1) The Falkor Framework **1.0.0** | **Falkor** General Commands Manual % Barnabas Bucsy % June 2023
 
 # NAME
 
@@ -18,28 +18,28 @@ The **falkor-commander** project is a standalone npm command-line application wr
 
 # OPTIONS
 
-`-v`, `--version`  
+`-v`, `--version`
 : Show version and exit
 
-`-h`, `--help`  
+`-h`, `--help`
 : Show help and exit
 
-`-s <scope>`, `--scope <scope>`  
+`-s <scope>`, `--scope <scope>`
 : The scope to look for plugins under **node_modules** (default: **@falkor**)
 
-`-p <path>`, `--path <path>`  
+`-p <path>`, `--path <path>`
 : Explicit directory to look for plugins in (overrides scope setting)
 
-`-k <keyword>`, `--keyword <keyword>`  
+`-k <keyword>`, `--keyword <keyword>`
 : The keyword to look for in plugin candidates' **package.json** (default: **@falkor-plugin**)
 
-`-r <registry>`, `--registry <registry>`  
+`-r <registry>`, `--registry <registry>`
 : Registry to use when searching for plugins at fresh install (default: **https://registry.npmjs.org**)
 
-`<tasks>...`  
+`<tasks>...`
 : Treat all positional arguments as buffered task IDs
 
-`-- <answers>...`  
+`-- <answers>...`
 : Treat all positional arguments after double dash as buffered input
 
 # TASK SPECIFIC OPTIONS
@@ -52,4 +52,4 @@ If for some reason the `#` character is reserved in your workflow, it can be sub
 
 # COPYRIGHT
 
-(C)2020-2022 Barnabas Bucsy - All rights reserved.
+(C)2020-2023 Barnabas Bucsy - All rights reserved.
